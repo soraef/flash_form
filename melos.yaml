@@ -1,0 +1,109 @@
+name: quick_form
+
+packages:
+  - packages/**
+
+sdkPath: .fvm/flutter_sdk
+
+scripts:
+  # コードの解析
+  analyze:
+    name: analyze
+    exec: dart analyze .
+
+  clean:
+    name: clean
+    exec: fvm flutter clean
+
+  repair:
+    name: repair
+    exec: fvm flutter pub cache repair
+
+  fix_dry-run:
+    name: fix dry-run
+    exec: dart fix --dry-run .
+
+  fix_apply:
+    name: fix apply
+    exec: dart fix --apply .
+
+  # パッケージの更新
+  pub_get:
+    name: pub_get
+    exec: fvm flutter pub get
+
+  pub_upgrade:
+    name: pub_upgrade
+    exec: fvm flutter pub upgrade
+
+  # コード生成
+  build_runner_watch:
+    name: build_runner
+    exec: fvm flutter pub run build_runner watch --delete-conflicting-outputs
+
+  image_gen:
+    name: image_gen
+    exec: fluttergen -c pubspec.yaml
+
+  l10n_gen:
+    name: l10n_gen
+    exec: fvm flutter gen-l10n
+    packageFilters:
+      scope: leo_app
+
+  icon_gen:
+    name: icon_gen
+    exec: fvm flutter pub run flutter_launcher_icons:main
+    packageFilters:
+      scope: leo_app
+
+  # 開発環境のビルド
+  build_app_ios_dev:
+    name: build_app_ios_dev
+    exec: fvm flutter build ios --release --dart-define-from-file=dart_defines/dev.json && open build/ios/archive/Runner.xcarchive
+    packageFilters:
+      scope: leo_app
+
+  build_app_android_dev:
+    name: build_app_android_dev
+    exec: fvm flutter build apk --release --dart-define-from-file=dart_defines/dev.json && open build/app/outputs/flutter-apk
+    packageFilters:
+      scope: leo_app
+
+  build_admin_web_dev:
+    name: build_admin_web_dev
+    exec: fvm flutter build web --dart-define-from-file=dart_defines/dev.json
+    packageFilters:
+      scope: leo_admin
+
+  # ステージング環境のビルド
+  build_app_ios_stg:
+    name: build_app_ios_stg
+    exec: fvm flutter build ios --release --dart-define-from-file=dart_defines/stg.json && open build/ios/archive/Runner.xcarchive
+    packageFilters:
+      scope: leo_app
+
+  build_app_android_stg:
+    name: build_app_android_stg
+    exec: fvm flutter build apk --release --dart-define-from-file=dart_defines/stg.json && open build/app/outputs/flutter-apk
+    packageFilters:
+      scope: leo_app
+
+  # 本番環境のビルド
+  build_app_ios_prod:
+    name: build_app_ios_prod
+    exec: fvm flutter build ios --release --dart-define-from-file=dart_defines/prod.json && open build/ios/archive/Runner.xcarchive
+    packageFilters:
+      scope: leo_app
+
+  build_app_android_prod:
+    name: build_app_android_prod
+    exec: fvm flutter build apk --release --dart-define-from-file=dart_defines/prod.json && open build/app/outputs/flutter-apk
+    packageFilters:
+      scope: leo_app
+
+  build_admin_web_prod:
+    name: build_admin_web_prod
+    exec: fvm flutter build web --dart-define-from-file=dart_defines/prod.json
+    packageFilters:
+      scope: leo_admin
