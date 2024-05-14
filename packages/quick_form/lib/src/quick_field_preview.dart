@@ -93,8 +93,8 @@ class TypePreviewWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text('Type'),
-                    Spacer(),
+                    const Text('Type'),
+                    const Spacer(),
                     Text(field.type.toString()),
                   ],
                 ),

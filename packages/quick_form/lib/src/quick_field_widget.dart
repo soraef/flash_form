@@ -38,7 +38,6 @@ class _QuickFieldWidgetState extends State<QuickFieldWidget> {
   }
 
   void _updateValue() {
-    print('update value');
     setState(() {});
   }
 
@@ -153,7 +152,7 @@ class ListFieldWidget extends StatelessWidget {
       bottomBuilder: (context) {
         return Row(
           children: [
-            Spacer(),
+            const Spacer(),
             OutlinedButton(
               onPressed: () {
                 field.addField();
@@ -190,7 +189,7 @@ class ListFieldBuilder extends StatelessWidget {
           if (topBuilder != null) topBuilder!(context),
           ...field.children.map((child) {
             return itemBuilder(context, child);
-          }).toList(),
+          }),
           if (bottomBuilder != null) bottomBuilder!(context),
         ],
       ),

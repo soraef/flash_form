@@ -1,9 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:quick_form/src/quick_field_preview.dart';
 
 import 'quick_field_event.dart';
 import 'quick_field_format.dart';
-import 'quick_form_converter.dart';
 
 class ListItemMetadata {
   final int index;

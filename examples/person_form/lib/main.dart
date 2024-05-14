@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:quick_form/quick_form.dart';
 
 import 'form_models.dart';
@@ -42,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text('Person Form'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             QuickFormWidget(form: form),
@@ -61,8 +60,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     },
                   );
-
-                  print(form.toModel());
                 },
                 child: const Text('Submit'),
               ),
