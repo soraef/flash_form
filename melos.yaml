@@ -1,4 +1,4 @@
-name: quick_form
+name: flash_form
 
 packages:
   - packages/**

@@ -242,13 +242,13 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "quick_form",
+      "name": "flash_form",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-05-14T05:43:50.885633Z",
+  "generated": "2024-05-14T05:56:00.696434Z",
   "generator": "pub",
   "generatorVersion": "3.3.4"
 }

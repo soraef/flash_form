@@ -1,9 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'package:quick_form/quick_form.dart';
 
-class QuickPreviewWidget extends StatelessWidget {
-  final QuickForm form;
-  const QuickPreviewWidget({super.key, required this.form});
+import 'flash_field.dart';
+
+class FlashPreviewWidget extends StatelessWidget {
+  final FlashForm form;
+  const FlashPreviewWidget({super.key, required this.form});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class QuickPreviewWidget extends StatelessWidget {
 }
 
 class DefaultPreviewWidget extends StatelessWidget {
-  final QuickField field;
+  final FlashField field;
   const DefaultPreviewWidget({
     super.key,
     required this.field,

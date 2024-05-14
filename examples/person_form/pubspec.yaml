@@ -35,8 +35,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
 
-  quick_form:
-    path: ../../packages/quick_form
+  flash_form:
+    path: ../../packages/flash_form
 
 dev_dependencies:
   flutter_test:

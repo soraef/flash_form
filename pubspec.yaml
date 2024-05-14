@@ -1,4 +1,4 @@
-name: quick_form
+name: flash_form
 
 environment:
   sdk: ">=3.1.5 <4.0.0"

@@ -1,4 +1,4 @@
-abstract class QuickFormConverter<TModel, TFormModel> {
+abstract class FlashFormConverter<TModel, TFormModel> {
   TFormModel toFormModel(TModel model);
   TModel toModel(TFormModel formModel);
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-import 'quick_field.dart';
-import 'quick_field_preview.dart';
-import 'quick_field_widget.dart';
+import 'flash_field.dart';
+import 'flash_field_preview.dart';
+import 'flash_field_widget.dart';
 
 abstract class FieldFormat {
   final String name;
@@ -11,8 +11,8 @@ abstract class FieldFormat {
     required this.name,
   });
 
-  Widget createFieldWidget(QuickField field);
-  Widget createPreviewWidget(QuickField field) {
+  Widget createFieldWidget(FlashField field);
+  Widget createPreviewWidget(FlashField field) {
     return DefaultPreviewWidget(
       key: UniqueKey(),
       field: field,
@@ -38,8 +38,8 @@ class TextFieldFormat extends ValueFieldFormat<String, String> {
   String? toView(String? value) => value;
 
   @override
-  Widget createFieldWidget(QuickField field) {
-    return QuickFormTextField(
+  Widget createFieldWidget(FlashField field) {
+    return FlashFormTextField(
       key: UniqueKey(),
       field: field as ValueField,
     );
@@ -56,8 +56,8 @@ class NumberFieldFormat extends ValueFieldFormat<int, String> {
   String? toView(int? value) => value?.toString();
 
   @override
-  Widget createFieldWidget(QuickField field) {
-    return QuickFormTextField(
+  Widget createFieldWidget(FlashField field) {
+    return FlashFormTextField(
       key: UniqueKey(),
       field: field as ValueField,
     );
@@ -68,12 +68,12 @@ class ListFieldFormat extends FieldFormat {
   const ListFieldFormat() : super(name: 'ListField');
 
   @override
-  Widget createFieldWidget(QuickField field) {
+  Widget createFieldWidget(FlashField field) {
     return ListFieldWidget(field: field as ListField);
   }
 
   @override
-  Widget createPreviewWidget(QuickField field) {
+  Widget createPreviewWidget(FlashField field) {
     return ListPreviewWidget(
       key: UniqueKey(),
       field: field as ListField,
@@ -85,15 +85,15 @@ class ModelFieldFormat extends FieldFormat {
   const ModelFieldFormat() : super(name: 'ModelField');
 
   @override
-  Widget createFieldWidget(QuickField field) {
-    return QuickFormWidget(
-      form: field as QuickForm,
+  Widget createFieldWidget(FlashField field) {
+    return FlashFormWidget(
+      form: field as FlashForm,
     );
   }
 
   @override
-  Widget createPreviewWidget(QuickField field) {
-    return QuickPreviewWidget(form: field as QuickForm);
+  Widget createPreviewWidget(FlashField field) {
+    return FlashPreviewWidget(form: field as FlashForm);
   }
 }
 
@@ -101,12 +101,12 @@ class TypeFieldFormat extends FieldFormat {
   const TypeFieldFormat() : super(name: 'TypeField');
 
   @override
-  Widget createFieldWidget(QuickField field) {
+  Widget createFieldWidget(FlashField field) {
     return TypeFieldWidget(field: field as TypeField);
   }
 
   @override
-  Widget createPreviewWidget(QuickField field) {
+  Widget createPreviewWidget(FlashField field) {
     return TypePreviewWidget(field: field as TypeField);
   }
 }

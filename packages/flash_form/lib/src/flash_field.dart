@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-import 'quick_field_event.dart';
-import 'quick_field_format.dart';
+import 'flash_field_event.dart';
+import 'flash_field_format.dart';
 
 class ListItemMetadata {
   final int index;
@@ -11,16 +11,16 @@ class ListItemMetadata {
   });
 }
 
-abstract class QuickField<ValueType, ViewType> with ChangeNotifier {
+abstract class FlashField<ValueType, ViewType> with ChangeNotifier {
   final String label;
   final FieldFormat fieldFormat;
 
   ListItemMetadata? _listItemMetadata;
   ListItemMetadata? get listItemMetadata => _listItemMetadata;
 
-  void Function(QuickFieldEvent event)? emitEventToParent;
+  void Function(FlashFieldEvent event)? emitEventToParent;
 
-  QuickField({
+  FlashField({
     required this.label,
     required this.fieldFormat,
     this.emitEventToParent,
@@ -38,7 +38,7 @@ abstract class QuickField<ValueType, ViewType> with ChangeNotifier {
   }
 }
 
-class ValueField<ValueType, ViewType> extends QuickField<ValueType, ViewType> {
+class ValueField<ValueType, ViewType> extends FlashField<ValueType, ViewType> {
   @override
   ValueType? value;
   String? Function(ValueType value)? validator;
@@ -63,10 +63,10 @@ class ValueField<ValueType, ViewType> extends QuickField<ValueType, ViewType> {
 }
 
 class ListField<ValueType, ViewType>
-    extends QuickField<List<ValueType>, List<ViewType>> {
-  List<QuickField<ValueType, ViewType>> children;
+    extends FlashField<List<ValueType>, List<ViewType>> {
+  List<FlashField<ValueType, ViewType>> children;
   String? Function(List<ValueType> value)? validator;
-  QuickField<ValueType, ViewType> Function(ValueType? value)? childFactory;
+  FlashField<ValueType, ViewType> Function(ValueType? value)? childFactory;
 
   ListField({
     required super.label,
@@ -100,7 +100,7 @@ class ListField<ValueType, ViewType>
     notifyListeners();
   }
 
-  void removeField(QuickField<ValueType, ViewType> field) {
+  void removeField(FlashField<ValueType, ViewType> field) {
     children.remove(field);
     children.asMap().forEach((index, child) {
       child.setListItemMetadata(ListItemMetadata(index: index));
@@ -108,9 +108,9 @@ class ListField<ValueType, ViewType>
     notifyListeners();
   }
 
-  void _handleChildEvent(QuickFieldEvent event) {
+  void _handleChildEvent(FlashFieldEvent event) {
     if (event is ListItemRemoveEvent) {
-      removeField(event.field as QuickField<ValueType, ViewType>);
+      removeField(event.field as FlashField<ValueType, ViewType>);
     }
   }
 
@@ -119,13 +119,13 @@ class ListField<ValueType, ViewType>
       children.map((e) => e.value).whereType<ValueType>().toList();
 }
 
-abstract class QuickForm<T> extends QuickField<T, T> {
-  QuickForm({
+abstract class FlashForm<T> extends FlashField<T, T> {
+  FlashForm({
     required super.label,
     super.fieldFormat = const ModelFieldFormat(),
   });
 
-  List<QuickField> get fields;
+  List<FlashField> get fields;
 
   T toModel();
   void fromModel(T model);
@@ -143,11 +143,11 @@ abstract class QuickForm<T> extends QuickField<T, T> {
 }
 
 class TypeField<ValueType, ViewType, TypeEnum>
-    extends QuickField<ValueType, ViewType> {
-  final Map<TypeEnum, QuickField<ValueType, ViewType>> fields;
+    extends FlashField<ValueType, ViewType> {
+  final Map<TypeEnum, FlashField<ValueType, ViewType>> fields;
   final TypeEnum Function(ValueType value) typeFactory;
   TypeEnum? type;
-  QuickField<ValueType, ViewType>? selectedField;
+  FlashField<ValueType, ViewType>? selectedField;
 
   TypeField({
     required super.label,

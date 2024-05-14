@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quick_form/quick_form.dart';
+import 'package:flash_form/flash_form.dart';
 
 import 'form_models.dart';
 
@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            QuickFormWidget(form: form),
+            FlashFormWidget(form: form),
             Padding(
               padding: const EdgeInsets.all(32.0),
               child: ElevatedButton(
@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       return Dialog(
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: QuickPreviewWidget(form: form),
+                          child: FlashPreviewWidget(form: form),
                         ),
                       );
                     },

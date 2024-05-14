@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'quick_field.dart';
-import 'quick_field_event.dart';
+import 'flash_field.dart';
+import 'flash_field_event.dart';
 
-class QuickFormWidget extends StatelessWidget {
-  final QuickForm form;
-  const QuickFormWidget({super.key, required this.form});
+class FlashFormWidget extends StatelessWidget {
+  final FlashForm form;
+  const FlashFormWidget({super.key, required this.form});
 
   @override
   Widget build(BuildContext context) {
@@ -17,20 +17,20 @@ class QuickFormWidget extends StatelessWidget {
   }
 }
 
-class QuickFieldWidget extends StatefulWidget {
-  final QuickField field;
+class FlashFieldWidget extends StatefulWidget {
+  final FlashField field;
   final Widget Function(BuildContext context) builder;
-  const QuickFieldWidget({
+  const FlashFieldWidget({
     super.key,
     required this.field,
     required this.builder,
   });
 
   @override
-  State<QuickFieldWidget> createState() => _QuickFieldWidgetState();
+  State<FlashFieldWidget> createState() => _FlashFieldWidgetState();
 }
 
-class _QuickFieldWidgetState extends State<QuickFieldWidget> {
+class _FlashFieldWidgetState extends State<FlashFieldWidget> {
   @override
   void initState() {
     super.initState();
@@ -53,15 +53,15 @@ class _QuickFieldWidgetState extends State<QuickFieldWidget> {
   }
 }
 
-class QuickFormTextField<T> extends StatefulWidget {
+class FlashFormTextField<T> extends StatefulWidget {
   final ValueField field;
-  const QuickFormTextField({super.key, required this.field});
+  const FlashFormTextField({super.key, required this.field});
 
   @override
-  State<QuickFormTextField> createState() => _QuickFormTextFieldState();
+  State<FlashFormTextField> createState() => _FlashFormTextFieldState();
 }
 
-class _QuickFormTextFieldState extends State<QuickFormTextField> {
+class _FlashFormTextFieldState extends State<FlashFormTextField> {
   late TextEditingController _controller;
 
   @override
@@ -170,7 +170,7 @@ class ListFieldBuilder extends StatelessWidget {
   final ListField field;
   final Widget Function(BuildContext context)? topBuilder;
   final Widget Function(BuildContext context)? bottomBuilder;
-  final Widget Function(BuildContext context, QuickField field) itemBuilder;
+  final Widget Function(BuildContext context, FlashField field) itemBuilder;
 
   const ListFieldBuilder({
     super.key,
@@ -182,7 +182,7 @@ class ListFieldBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return QuickFieldWidget(
+    return FlashFieldWidget(
       field: field,
       builder: (context) => Column(
         children: [
@@ -206,7 +206,7 @@ class TypeFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return QuickFieldWidget(
+    return FlashFieldWidget(
       builder: (context) => Column(
         children: [
           DropdownButton(

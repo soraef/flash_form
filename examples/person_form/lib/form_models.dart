@@ -1,7 +1,7 @@
 import 'package:person_form/models.dart';
-import 'package:quick_form/quick_form.dart';
+import 'package:flash_form/flash_form.dart';
 
-class PersonForm extends QuickForm<Person> {
+class PersonForm extends FlashForm<Person> {
   PersonForm() : super(label: 'Person Form');
 
   final nameField = ValueField<String, String>(
@@ -47,7 +47,7 @@ class PersonForm extends QuickForm<Person> {
   );
 
   @override
-  List<QuickField> get fields => [
+  List<FlashField> get fields => [
         nameField,
         ageField,
         hobbyField,
@@ -76,7 +76,7 @@ class PersonForm extends QuickForm<Person> {
   }
 }
 
-class ChildForm extends QuickForm<Child> {
+class ChildForm extends FlashForm<Child> {
   ChildForm()
       : super(
           label: 'Child Form',
@@ -96,7 +96,7 @@ class ChildForm extends QuickForm<Child> {
   );
 
   @override
-  List<QuickField> get fields => [nameField, ageField];
+  List<FlashField> get fields => [nameField, ageField];
 
   @override
   void fromModel(Child model) {
@@ -113,7 +113,7 @@ class ChildForm extends QuickForm<Child> {
   }
 }
 
-class StudentForm extends QuickForm<Student> {
+class StudentForm extends FlashForm<Student> {
   StudentForm()
       : super(
           label: 'Student Form',
@@ -127,7 +127,7 @@ class StudentForm extends QuickForm<Student> {
   );
 
   @override
-  List<QuickField> get fields => [schoolField];
+  List<FlashField> get fields => [schoolField];
 
   @override
   void fromModel(Student model) {
@@ -142,7 +142,7 @@ class StudentForm extends QuickForm<Student> {
   }
 }
 
-class EmployeeForm extends QuickForm<Employee> {
+class EmployeeForm extends FlashForm<Employee> {
   EmployeeForm()
       : super(
           label: 'Employee Form',
@@ -156,7 +156,7 @@ class EmployeeForm extends QuickForm<Employee> {
   );
 
   @override
-  List<QuickField> get fields => [companyField];
+  List<FlashField> get fields => [companyField];
 
   @override
   void fromModel(Employee model) {

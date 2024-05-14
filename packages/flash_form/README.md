@@ -1,8 +1,8 @@
-# Quick Form Flutter Package
+# Flash Form Flutter Package
 
 ## Overview
 
-The Quick Form package is an experimental tool designed to simplify the creation and management of forms in Flutter applications. This package aims to provide a declarative approach to form building, making it easier for developers to define, manage, and validate complex forms with nested structures.
+The Flash Form package is an experimental tool designed to simplify the creation and management of forms in Flutter applications. This package aims to provide a declarative approach to form building, making it easier for developers to define, manage, and validate complex forms with nested structures.
 
 ## Goals
 
@@ -28,7 +28,7 @@ The Quick Form package is an experimental tool designed to simplify the creation
 
 ## Current Status
 
-The Quick Form package is currently in an experimental phase. It is a work in progress and is being actively developed to refine its features and improve its usability. As an experimental tool, it is not yet recommended for production use, but it serves as a proof of concept for the goals outlined above.
+The Flash Form package is currently in an experimental phase. It is a work in progress and is being actively developed to refine its features and improve its usability. As an experimental tool, it is not yet recommended for production use, but it serves as a proof of concept for the goals outlined above.
 
 ## Future Plans
 
@@ -40,4 +40,4 @@ The Quick Form package is currently in an experimental phase. It is a work in pr
 
 ## Conclusion
 
-The Quick Form package is an exciting experimental tool aimed at simplifying form creation and management in Flutter. By focusing on declarative syntax, nested structures, customizable field formats, and easy model conversion, it strives to provide a powerful and flexible solution for developers. As development continues, the package aims to become a robust and essential tool for Flutter form management.
+The Flash Form package is an exciting experimental tool aimed at simplifying form creation and management in Flutter. By focusing on declarative syntax, nested structures, customizable field formats, and easy model conversion, it strives to provide a powerful and flexible solution for developers. As development continues, the package aims to become a robust and essential tool for Flutter form management.
