@@ -142,9 +142,12 @@ abstract class FlashForm<T> extends FlashField<T, T> {
   }
 }
 
+typedef FieldFactory<ValueType, ViewType> = FlashField<ValueType, ViewType>
+    Function();
+
 class TypeField<ValueType, ViewType, TypeEnum>
     extends FlashField<ValueType, ViewType> {
-  final Map<TypeEnum, FlashField<ValueType, ViewType>> fields;
+  final Map<TypeEnum, FieldFactory<ValueType, ViewType>> fields;
   final TypeEnum Function(ValueType value) typeFactory;
   TypeEnum? type;
   FlashField<ValueType, ViewType>? selectedField;
@@ -166,7 +169,7 @@ class TypeField<ValueType, ViewType, TypeEnum>
 
   void updateType(TypeEnum? newValue) {
     type = newValue;
-    selectedField = fields[type];
+    selectedField = fields[type]?.call();
     notifyListeners();
   }
 
