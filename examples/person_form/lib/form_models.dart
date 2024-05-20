@@ -39,8 +39,8 @@ class PersonForm extends FlashForm<Person> {
   final roleField = TypeField<Role, Role, Type>(
     label: 'Role',
     fields: {
-      Student: StudentForm(),
-      Employee: EmployeeForm(),
+      Student: () => StudentForm(),
+      Employee: () => EmployeeForm(),
     },
     type: null,
     typeFactory: (Role value) => value.runtimeType,

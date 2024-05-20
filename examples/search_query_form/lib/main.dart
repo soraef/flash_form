@@ -1,4 +1,7 @@
+import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
+
+import 'form_models.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,11 +24,38 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
   @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final form = RootConditionForm();
+
+  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flutter Demo Home Page'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              FlashFormWidget(form: form),
+              ElevatedButton(
+                onPressed: () {
+                  print(form.toModel());
+                },
+                child: const Text('Submit'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

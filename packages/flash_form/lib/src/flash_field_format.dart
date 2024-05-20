@@ -102,6 +102,7 @@ class TypeFieldFormat extends FieldFormat {
 
   @override
   Widget createFieldWidget(FlashField field) {
+    print(field);
     return TypeFieldWidget(field: field as TypeField);
   }
 

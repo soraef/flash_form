@@ -1,6 +1,6 @@
 name: flash_form
 description: "An experimental Flutter package for declarative and flexible form creation, supporting nested structures and customizable field formats."
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/soraef/flash_form
 
 environment:

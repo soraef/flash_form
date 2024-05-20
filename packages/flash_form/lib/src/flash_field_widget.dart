@@ -209,17 +209,21 @@ class TypeFieldWidget extends StatelessWidget {
     return FlashFieldWidget(
       builder: (context) => Column(
         children: [
-          DropdownButton(
-            value: field.type,
-            items: field.fields.keys
-                .map((key) => DropdownMenuItem(
-                      value: key,
-                      child: Text(key.toString()),
-                    ))
-                .toList(),
-            onChanged: (value) {
-              field.updateType(value);
-            },
+          Row(
+            children: [
+              DropdownButton(
+                value: field.type,
+                items: field.fields.keys
+                    .map((key) => DropdownMenuItem(
+                          value: key,
+                          child: Text(key.toString()),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  field.updateType(value);
+                },
+              ),
+            ],
           ),
           if (field.selectedFieldFormat != null)
             field.selectedFieldFormat!.createFieldWidget(field.selectedField!),
