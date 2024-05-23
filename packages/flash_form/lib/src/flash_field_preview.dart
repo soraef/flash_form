@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'flash_field.dart';
 
 class FlashPreviewWidget extends StatelessWidget {
-  final FlashForm form;
+  final ObjectField form;
   const FlashPreviewWidget({super.key, required this.form});
 
   @override
@@ -27,8 +27,6 @@ class DefaultPreviewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        if (field.listItemMetadata == null) Text(field.label),
-        const Spacer(),
         Text(field.value.toString()),
       ],
     );
@@ -44,21 +42,21 @@ class ListPreviewWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(field.label),
-          ],
-        ),
+        // Row(
+        //   children: [
+        //     Text(field.label),
+        //   ],
+        // ),
         ...field.children.map((child) {
           return Padding(
             padding: const EdgeInsets.only(left: 16.0),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Text('${field.label} ${child.listItemMetadata!.index}'),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Text('${field.label} ${child.fieldType}'),
+                //   ],
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0),
                   child: child.fieldFormat.createPreviewWidget(child),
@@ -81,11 +79,11 @@ class TypePreviewWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(field.label),
-          ],
-        ),
+        // Row(
+        //   children: [
+        //     Text(field.label),
+        //   ],
+        // ),
         if (field.selectedFieldFormat != null)
           Padding(
             padding: const EdgeInsets.only(left: 16.0),
@@ -96,7 +94,7 @@ class TypePreviewWidget extends StatelessWidget {
                   children: [
                     const Text('Type'),
                     const Spacer(),
-                    Text(field.type.toString()),
+                    Text(field.fieldType.toString()),
                   ],
                 ),
                 field.selectedField!.fieldFormat

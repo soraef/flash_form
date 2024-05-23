@@ -1,5 +1,7 @@
 import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
+import 'package:search_query_form/models.dart';
+import 'package:search_query_form/person.dart';
 
 import 'form_models.dart';
 
@@ -33,12 +35,36 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final form = RootConditionForm();
+  final gen = PersonGenerator();
+
+  late final people = gen.animeCharacters;
+  var pageType = PageType.list;
+  ICondition? condition;
 
   @override
   Widget build(BuildContext context) {
+    if (pageType == PageType.list) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Anime Characters List'),
+          actions: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  pageType = PageType.form;
+                });
+              },
+              icon: const Icon(Icons.search),
+            ),
+          ],
+        ),
+        body: PersonListPage(people: people, condition: condition),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter Demo Home Page'),
+        title: const Text('Search Anime Characters'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -48,14 +74,66 @@ class _MyHomePageState extends State<MyHomePage> {
               FlashFormWidget(form: form),
               ElevatedButton(
                 onPressed: () {
-                  print(form.toModel());
+                  final isValid = form.validate();
+                  print(isValid);
+                  if (!isValid) {
+                    return;
+                  }
+                  setState(() {
+                    condition = form.toModel();
+                    pageType = PageType.list;
+                  });
                 },
-                child: const Text('Submit'),
+                child: const Text('Search'),
               ),
+              ElevatedButton(
+                child: const Text('Clear'),
+                onPressed: () {
+                  form.conditionField.updateValue(null);
+                  setState(() {
+                    condition = null;
+                    pageType = PageType.list;
+                  });
+                },
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+enum PageType {
+  list,
+  form,
+}
+
+class PersonListPage extends StatelessWidget {
+  final List<Person> people;
+  final ICondition? condition;
+  const PersonListPage({
+    super.key,
+    required this.people,
+    required this.condition,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final filteredPeople = people.where((person) {
+      return condition?.isSatisfied(person) ?? true;
+    }).toList();
+
+    return ListView.builder(
+      itemCount: filteredPeople.length,
+      itemBuilder: (context, index) {
+        final person = filteredPeople[index];
+        return ListTile(
+          title: Text(person.name),
+          subtitle: Text(person.hobbies.join(' ')),
+          trailing: Text(person.age.toString()),
+        );
+      },
     );
   }
 }

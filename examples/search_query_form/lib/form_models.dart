@@ -1,11 +1,14 @@
 import 'package:flash_form/flash_form.dart';
+import 'package:flutter/material.dart';
 
 import 'models.dart';
 
-class RootConditionForm extends FlashForm<RootCondition> {
-  RootConditionForm() : super(label: 'Root Condition');
+class RootConditionForm extends ObjectField<RootCondition> {
+  RootConditionForm() : super(parent: null);
 
-  final conditionField = ConditionTypeField();
+  late final conditionField = ConditionTypeField(
+    parent: this,
+  );
 
   @override
   List<FlashField> get fields => [conditionField];
@@ -21,28 +24,73 @@ class RootConditionForm extends FlashForm<RootCondition> {
   }
 }
 
-class ConditionTypeField extends TypeField<ICondition, ICondition, Type> {
-  ConditionTypeField()
-      : super(
-          label: 'Condition Type',
-          fields: {
-            And: () => AndForm(),
-            Or: () => OrForm(),
-            Not: () => NotForm(),
-            Equals: () => EqualsForm(),
+class ConditionTypeField
+    extends TypeField<ICondition, ICondition, ConditionType> {
+  ConditionTypeField({
+    required super.parent,
+  }) : super(
+          wrappers: [
+            LableWrapper('Condition'),
+            ErrorMessageWrapper(),
+            CardWrapper(),
+          ],
+          toDisplay: (value) => value.name,
+          typeOptions: [
+            ConditionType.and,
+            ConditionType.or,
+            ConditionType.not,
+            ConditionType.equals,
+            ConditionType.greaterThan,
+            ConditionType.lessThan,
+            ConditionType.contains,
+          ],
+          factory: (type, parent) {
+            switch (type) {
+              case ConditionType.and:
+                return AndForm(parent: parent);
+              case ConditionType.or:
+                return OrForm(parent: parent);
+              case ConditionType.not:
+                return NotForm(parent: parent);
+              case ConditionType.equals:
+                return EqualsForm(parent: parent);
+              case ConditionType.greaterThan:
+                return GreaterThanForm(parent: parent);
+              case ConditionType.lessThan:
+                return LessThanForm(parent: parent);
+              case ConditionType.contains:
+                return ContainsForm(parent: parent);
+              default:
+                throw Exception('Invalid type');
+            }
           },
           type: null,
-          typeFactory: (ICondition value) => value.runtimeType,
+          typeFactory: (ICondition value) => value.conditionType,
         );
 }
 
-class AndForm extends FlashForm<And> {
-  AndForm() : super(label: 'And');
+enum ConditionType {
+  root,
+  and,
+  or,
+  not,
+  equals,
+  greaterThan,
+  lessThan,
+  contains,
+}
 
-  final conditionsField = ListField<dynamic, dynamic>(
-    label: 'Conditions',
+class AndForm extends ObjectField<And> {
+  AndForm({
+    required super.parent,
+  }) : super();
+
+  late final conditionsField = ListField<dynamic, dynamic>(
     children: [],
-    childFactory: (value) => ConditionTypeField(),
+    childFactory: (value, parent) => ConditionTypeField(
+      parent: parent,
+    ),
+    parent: this,
   );
 
   @override
@@ -60,13 +108,17 @@ class AndForm extends FlashForm<And> {
   }
 }
 
-class OrForm extends FlashForm<Or> {
-  OrForm() : super(label: 'Or');
+class OrForm extends ObjectField<Or> {
+  OrForm({
+    required super.parent,
+  }) : super();
 
-  final conditionsField = ListField(
-    label: 'Conditions',
+  late final conditionsField = ListField(
     children: [],
-    childFactory: (value) => ConditionTypeField(),
+    parent: this,
+    childFactory: (value, parent) => ConditionTypeField(
+      parent: parent,
+    ),
   );
 
   @override
@@ -85,10 +137,14 @@ class OrForm extends FlashForm<Or> {
   }
 }
 
-class NotForm extends FlashForm<Not> {
-  NotForm() : super(label: 'Not');
+class NotForm extends ObjectField<Not> {
+  NotForm({
+    required super.parent,
+  }) : super();
 
-  final conditionField = ConditionTypeField();
+  late final conditionField = ConditionTypeField(
+    parent: this,
+  );
 
   @override
   List<FlashField> get fields => [conditionField];
@@ -104,19 +160,34 @@ class NotForm extends FlashForm<Not> {
   }
 }
 
-class EqualsForm extends FlashForm<Equals> {
-  EqualsForm() : super(label: 'Equals');
+class EqualsForm extends ObjectField<Equals> {
+  EqualsForm({
+    required super.parent,
+  }) : super();
 
-  final keyField = ValueField<String, String>(
-    label: 'Key',
-    fieldFormat: TextFieldFormat(),
-    value: null,
+  late final keyField = ValueField<PersonEqualsField, String>(
+    fieldFormat: DropdownFieldFormat(
+      options: PersonEqualsField.values,
+      toDisplay: (value) => value?.name,
+    ),
+    validators: [RequiredValidator()],
+    wrappers: [
+      LableWrapper('Field'),
+      ErrorMessageWrapper(),
+      PaddingWrapper(const EdgeInsets.symmetric(vertical: 16)),
+    ],
+    parent: this,
   );
 
-  final valueField = ValueField<dynamic, dynamic>(
-    label: 'Value',
+  late final valueField = ValueField(
     fieldFormat: TextFieldFormat(),
-    value: null,
+    validators: [RequiredValidator()],
+    wrappers: [
+      LableWrapper('Value'),
+      ErrorMessageWrapper(),
+      PaddingWrapper(const EdgeInsets.symmetric(vertical: 16)),
+    ],
+    parent: this,
   );
 
   @override
@@ -124,12 +195,117 @@ class EqualsForm extends FlashForm<Equals> {
 
   @override
   void fromModel(Equals model) {
-    keyField.updateValue(model.key);
+    keyField.updateValue(model.fieldType);
     valueField.updateValue(model.value);
   }
 
   @override
   Equals toModel() {
     return Equals(keyField.value!, valueField.value!);
+  }
+}
+
+class GreaterThanForm extends ObjectField<GreaterThan> {
+  GreaterThanForm({
+    required super.parent,
+  }) : super();
+
+  late final keyField = ValueField<PersonGreaterThanField, String>(
+    fieldFormat: DropdownFieldFormat(
+      options: PersonGreaterThanField.values,
+      toDisplay: (value) => value?.name,
+    ),
+    parent: this,
+    value: null,
+  );
+
+  late final valueField = ValueField(
+    fieldFormat: NumberFieldFormat(),
+    value: null,
+    parent: this,
+  );
+
+  @override
+  List<FlashField> get fields => [keyField, valueField];
+
+  @override
+  void fromModel(GreaterThan model) {
+    keyField.updateValue(model.key);
+    valueField.updateValue(model.value);
+  }
+
+  @override
+  GreaterThan toModel() {
+    return GreaterThan(keyField.value!, valueField.value!);
+  }
+}
+
+class LessThanForm extends ObjectField<LessThan> {
+  LessThanForm({
+    required super.parent,
+  }) : super();
+
+  late final keyField = ValueField<PersonLessThanField, String>(
+    fieldFormat: DropdownFieldFormat(
+      options: PersonLessThanField.values,
+      toDisplay: (value) => value?.name,
+    ),
+    parent: this,
+    value: null,
+  );
+
+  late final valueField = ValueField(
+    fieldFormat: NumberFieldFormat(),
+    value: null,
+    parent: this,
+  );
+
+  @override
+  List<FlashField> get fields => [keyField, valueField];
+
+  @override
+  void fromModel(LessThan model) {
+    keyField.updateValue(model.key);
+    valueField.updateValue(model.value);
+  }
+
+  @override
+  LessThan toModel() {
+    return LessThan(keyField.value!, valueField.value!);
+  }
+}
+
+class ContainsForm extends ObjectField<Contains> {
+  ContainsForm({
+    required super.parent,
+  }) : super();
+
+  late final keyField = ValueField<PersonContainsField, String>(
+    fieldFormat: DropdownFieldFormat(
+      options: PersonContainsField.values,
+      toDisplay: (value) => value?.name,
+    ),
+    parent: this,
+    value: null,
+  );
+
+  late final valueField = ValueField(
+    fieldFormat: TextFieldFormat(),
+    value: null,
+    parent: this,
+  );
+
+  @override
+  List<FlashField> get fields => [keyField, valueField];
+
+  @override
+  void fromModel(Contains model) {
+    keyField.updateValue(model.key);
+    valueField.updateValue(model.value);
+  }
+
+  @override
+  Contains toModel() {
+    return Contains(keyField.value!, valueField.value!);
   }
 }

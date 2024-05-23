@@ -1,7 +1,7 @@
 import 'package:person_form/models.dart';
 import 'package:flash_form/flash_form.dart';
 
-class PersonForm extends FlashForm<Person> {
+class PersonForm extends ObjectField<Person> {
   PersonForm() : super(label: 'Person Form');
 
   final nameField = ValueField<String, String>(
@@ -42,7 +42,7 @@ class PersonForm extends FlashForm<Person> {
       Student: () => StudentForm(),
       Employee: () => EmployeeForm(),
     },
-    type: null,
+    fieldType: null,
     typeFactory: (Role value) => value.runtimeType,
   );
 
@@ -76,7 +76,7 @@ class PersonForm extends FlashForm<Person> {
   }
 }
 
-class ChildForm extends FlashForm<Child> {
+class ChildForm extends ObjectField<Child> {
   ChildForm()
       : super(
           label: 'Child Form',
@@ -113,7 +113,7 @@ class ChildForm extends FlashForm<Child> {
   }
 }
 
-class StudentForm extends FlashForm<Student> {
+class StudentForm extends ObjectField<Student> {
   StudentForm()
       : super(
           label: 'Student Form',
@@ -142,7 +142,7 @@ class StudentForm extends FlashForm<Student> {
   }
 }
 
-class EmployeeForm extends FlashForm<Employee> {
+class EmployeeForm extends ObjectField<Employee> {
   EmployeeForm()
       : super(
           label: 'Employee Form',

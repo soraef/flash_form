@@ -20,16 +20,19 @@ abstract class FieldFormat {
   }
 }
 
-abstract class ValueFieldFormat<ValueType, ViewType> extends FieldFormat {
+abstract class ValueFieldFormat<TValue, TView> extends FieldFormat {
   ValueFieldFormat(String name) : super(name: name);
 
-  ValueType? fromView(ViewType? value);
+  TValue? fromView(TView? value);
 
-  ViewType? toView(ValueType? value);
+  TView? toView(TValue? value);
 }
 
 class TextFieldFormat extends ValueFieldFormat<String, String> {
-  TextFieldFormat() : super('TextFieldFormat');
+  final TextFieldParameters? textFieldParams;
+  TextFieldFormat({
+    this.textFieldParams,
+  }) : super('TextFieldFormat');
 
   @override
   String? fromView(String? value) => value;
@@ -40,14 +43,18 @@ class TextFieldFormat extends ValueFieldFormat<String, String> {
   @override
   Widget createFieldWidget(FlashField field) {
     return FlashFormTextField(
-      key: UniqueKey(),
+      key: ObjectKey(field),
       field: field as ValueField,
+      textFieldParams: textFieldParams,
     );
   }
 }
 
 class NumberFieldFormat extends ValueFieldFormat<int, String> {
-  NumberFieldFormat() : super('NumberFieldFormat');
+  final TextFieldParameters? textFieldParams;
+  NumberFieldFormat({
+    this.textFieldParams,
+  }) : super('NumberFieldFormat');
 
   @override
   int? fromView(String? value) => int.tryParse(value ?? '');
@@ -58,10 +65,45 @@ class NumberFieldFormat extends ValueFieldFormat<int, String> {
   @override
   Widget createFieldWidget(FlashField field) {
     return FlashFormTextField(
-      key: UniqueKey(),
+      key: ObjectKey(field),
       field: field as ValueField,
+      textFieldParams: textFieldParams,
     );
   }
+}
+
+class DropdownFieldFormat<T> extends ValueFieldFormat<T, String> {
+  final List<T> options;
+  final String? Function(T? value) toDisplay;
+  final DropdownParameters? dropdownParams;
+
+  DropdownFieldFormat({
+    required this.options,
+    required this.toDisplay,
+    this.dropdownParams,
+  }) : super('DropdownFieldFormat');
+
+  @override
+  Widget createFieldWidget(FlashField field) {
+    return FlashFormDropdown(
+      key: ObjectKey(field),
+      field: field as ValueField,
+      dropdownParams: dropdownParams,
+    );
+  }
+
+  @override
+  T? fromView(String? value) {
+    for (var option in options) {
+      if (toDisplay(option) == value) {
+        return option;
+      }
+    }
+    return null;
+  }
+
+  @override
+  String? toView(T? value) => toDisplay(value);
 }
 
 class ListFieldFormat extends FieldFormat {
@@ -75,7 +117,7 @@ class ListFieldFormat extends FieldFormat {
   @override
   Widget createPreviewWidget(FlashField field) {
     return ListPreviewWidget(
-      key: UniqueKey(),
+      key: ObjectKey(field),
       field: field as ListField,
     );
   }
@@ -87,27 +129,50 @@ class ModelFieldFormat extends FieldFormat {
   @override
   Widget createFieldWidget(FlashField field) {
     return FlashFormWidget(
-      form: field as FlashForm,
+      form: field as ObjectField,
     );
   }
 
   @override
   Widget createPreviewWidget(FlashField field) {
-    return FlashPreviewWidget(form: field as FlashForm);
+    return FlashPreviewWidget(form: field as ObjectField);
   }
 }
 
-class TypeFieldFormat extends FieldFormat {
-  const TypeFieldFormat() : super(name: 'TypeField');
+class LayoutModelFieldFormat extends FieldFormat {
+  final Widget Function(ObjectField form) layoutBuilder;
+  const LayoutModelFieldFormat({
+    required this.layoutBuilder,
+  }) : super(name: 'LayoutModelField');
 
   @override
   Widget createFieldWidget(FlashField field) {
-    print(field);
-    return TypeFieldWidget(field: field as TypeField);
+    return LayoutModelFieldWidget(
+      form: field as ObjectField,
+    );
   }
 
   @override
   Widget createPreviewWidget(FlashField field) {
-    return TypePreviewWidget(field: field as TypeField);
+    return FlashPreviewWidget(form: field as ObjectField);
+  }
+}
+
+class TypeFieldFormat<TValue, TView, TOption> extends FieldFormat {
+  const TypeFieldFormat() : super(name: 'TypeField');
+
+  @override
+  Widget createFieldWidget(FlashField field) {
+    return TypeFieldWidget<TValue, TView, TOption>(
+      key: ObjectKey(field),
+      field: field as TypeField<TValue, TView, TOption>,
+    );
+  }
+
+  @override
+  Widget createPreviewWidget(FlashField field) {
+    return TypePreviewWidget(
+      field: field as TypeField,
+    );
   }
 }
