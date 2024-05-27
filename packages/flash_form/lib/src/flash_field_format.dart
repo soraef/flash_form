@@ -1,15 +1,13 @@
 import 'package:flutter/widgets.dart';
 
+import 'field_widgets/field_widgets.dart';
+import 'field_widgets/src/flash_dropdown_field.dart';
 import 'flash_field.dart';
 import 'flash_field_preview.dart';
 import 'flash_field_widget.dart';
 
 abstract class FieldFormat {
-  final String name;
-
-  const FieldFormat({
-    required this.name,
-  });
+  const FieldFormat();
 
   Widget createFieldWidget(FlashField field);
   Widget createPreviewWidget(FlashField field) {
@@ -21,7 +19,7 @@ abstract class FieldFormat {
 }
 
 abstract class ValueFieldFormat<TValue, TView> extends FieldFormat {
-  ValueFieldFormat(String name) : super(name: name);
+  ValueFieldFormat();
 
   TValue? fromView(TView? value);
 
@@ -32,7 +30,7 @@ class TextFieldFormat extends ValueFieldFormat<String, String> {
   final TextFieldParameters? textFieldParams;
   TextFieldFormat({
     this.textFieldParams,
-  }) : super('TextFieldFormat');
+  });
 
   @override
   String? fromView(String? value) => value;
@@ -42,7 +40,7 @@ class TextFieldFormat extends ValueFieldFormat<String, String> {
 
   @override
   Widget createFieldWidget(FlashField field) {
-    return FlashFormTextField(
+    return FlashTextField(
       key: ObjectKey(field),
       field: field as ValueField,
       textFieldParams: textFieldParams,
@@ -54,7 +52,7 @@ class NumberFieldFormat extends ValueFieldFormat<int, String> {
   final TextFieldParameters? textFieldParams;
   NumberFieldFormat({
     this.textFieldParams,
-  }) : super('NumberFieldFormat');
+  });
 
   @override
   int? fromView(String? value) => int.tryParse(value ?? '');
@@ -64,7 +62,7 @@ class NumberFieldFormat extends ValueFieldFormat<int, String> {
 
   @override
   Widget createFieldWidget(FlashField field) {
-    return FlashFormTextField(
+    return FlashTextField(
       key: ObjectKey(field),
       field: field as ValueField,
       textFieldParams: textFieldParams,
@@ -72,20 +70,20 @@ class NumberFieldFormat extends ValueFieldFormat<int, String> {
   }
 }
 
-class DropdownFieldFormat<T> extends ValueFieldFormat<T, String> {
+class SelectFieldFormat<T> extends ValueFieldFormat<T, String> {
   final List<T> options;
   final String? Function(T? value) toDisplay;
   final DropdownParameters? dropdownParams;
 
-  DropdownFieldFormat({
+  SelectFieldFormat({
     required this.options,
     required this.toDisplay,
     this.dropdownParams,
-  }) : super('DropdownFieldFormat');
+  });
 
   @override
   Widget createFieldWidget(FlashField field) {
-    return FlashFormDropdown(
+    return FlashDropdownField(
       key: ObjectKey(field),
       field: field as ValueField,
       dropdownParams: dropdownParams,
@@ -107,7 +105,7 @@ class DropdownFieldFormat<T> extends ValueFieldFormat<T, String> {
 }
 
 class ListFieldFormat extends FieldFormat {
-  const ListFieldFormat() : super(name: 'ListField');
+  const ListFieldFormat();
 
   @override
   Widget createFieldWidget(FlashField field) {
@@ -124,7 +122,7 @@ class ListFieldFormat extends FieldFormat {
 }
 
 class ModelFieldFormat extends FieldFormat {
-  const ModelFieldFormat() : super(name: 'ModelField');
+  const ModelFieldFormat();
 
   @override
   Widget createFieldWidget(FlashField field) {
@@ -143,7 +141,7 @@ class LayoutModelFieldFormat extends FieldFormat {
   final Widget Function(ObjectField form) layoutBuilder;
   const LayoutModelFieldFormat({
     required this.layoutBuilder,
-  }) : super(name: 'LayoutModelField');
+  });
 
   @override
   Widget createFieldWidget(FlashField field) {
@@ -159,7 +157,7 @@ class LayoutModelFieldFormat extends FieldFormat {
 }
 
 class TypeFieldFormat<TValue, TView, TOption> extends FieldFormat {
-  const TypeFieldFormat() : super(name: 'TypeField');
+  const TypeFieldFormat();
 
   @override
   Widget createFieldWidget(FlashField field) {
