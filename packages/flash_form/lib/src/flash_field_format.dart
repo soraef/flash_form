@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 
 import 'field_widgets/field_widgets.dart';
-import 'field_widgets/src/flash_dropdown_field.dart';
 import 'flash_field.dart';
 import 'flash_field_preview.dart';
 import 'flash_field_widget.dart';

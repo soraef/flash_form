@@ -1,11 +1,8 @@
 import 'dart:async';
 
 import 'package:flash_form/flash_form.dart';
-import 'package:flash_form/src/flash_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-import 'flash_field_validator.dart';
 
 enum FlashFieldType {
   value,
@@ -61,6 +58,7 @@ abstract class FlashField<TValue, TView>
 
   FlashFieldType get fieldType;
 
+  @override
   Widget build() {
     return FlashFieldWidget(
       field: this,
@@ -77,7 +75,6 @@ abstract class FlashField<TValue, TView>
   bool validate() {
     validatorResults = validators.validate(this);
 
-    print(validatorResults);
     notifyListeners();
 
     return validatorResults.isEmpty;
@@ -316,9 +313,6 @@ class ListField<TValue, TView> extends FlashField<List<TValue>, List<TView>> {
 
     children.add(child);
     notifyListeners();
-
-    print(context._idMap);
-    print(context._fieldMap);
   }
 
   void removeField(FlashField<TValue, TView> field) {
@@ -337,13 +331,7 @@ class ListField<TValue, TView> extends FlashField<List<TValue>, List<TView>> {
       removeField(event.field as FlashField<TValue, TView>);
     }
 
-    if (event is ListItemRemoveEvent) {
-      print(
-          'event $event field ${event.field} fieldId ${event.field.id} id $id');
-      print(
-          'isParentChild ${context.isParentChild(childId: event.field.id, parentId: id)}');
-      print(context._idMap);
-    }
+    if (event is ListItemRemoveEvent) {}
   }
 
   @override
@@ -461,8 +449,6 @@ class TypeField<TValue, TView, TOption> extends FlashField<TValue, TView> {
     }
 
     selectedField = factory(type, this);
-    print(context._idMap);
-    print(context._fieldMap);
 
     notifyListeners();
   }

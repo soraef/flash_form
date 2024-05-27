@@ -1,10 +1,5 @@
-import 'dart:ui';
-
 import 'package:flash_form/flash_form.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 class FlashFormWidget extends StatelessWidget {
   final ObjectField form;
@@ -76,9 +71,6 @@ class _FlashFieldWidgetState extends State<FlashFieldWidget> {
   @override
   void didUpdateWidget(covariant FlashFieldWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    print(
-      'didUpdateWidget ${oldWidget.field} ${widget.field} ${oldWidget.field == widget.field}',
-    );
 
     if (oldWidget.field != widget.field) {
       oldWidget.field.removeListener(_updateValue);
@@ -87,10 +79,7 @@ class _FlashFieldWidgetState extends State<FlashFieldWidget> {
   }
 
   void _updateValue() {
-    setState(() {
-      print(
-          'state ${widget.field.fieldFormat}: ${widget.field.validatorResults}');
-    });
+    setState(() {});
   }
 
   @override
