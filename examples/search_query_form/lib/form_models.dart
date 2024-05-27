@@ -29,11 +29,6 @@ class ConditionTypeField
   ConditionTypeField({
     required super.parent,
   }) : super(
-          wrappers: [
-            LableWrapper('Condition'),
-            ErrorMessageWrapper(),
-            CardWrapper(),
-          ],
           toDisplay: (value) => value.name,
           typeOptions: [
             ConditionType.and,
@@ -166,27 +161,19 @@ class EqualsForm extends ObjectField<Equals> {
   }) : super();
 
   late final keyField = ValueField<PersonEqualsField, String>(
-    fieldFormat: DropdownFieldFormat(
+    fieldFormat: SelectFieldFormat(
       options: PersonEqualsField.values,
       toDisplay: (value) => value?.name,
     ),
     validators: [RequiredValidator()],
-    wrappers: [
-      LableWrapper('Field'),
-      ErrorMessageWrapper(),
-      PaddingWrapper(const EdgeInsets.symmetric(vertical: 16)),
-    ],
+    wrappers: [const DefaultValueWrapper(label: 'field')],
     parent: this,
   );
 
   late final valueField = ValueField(
     fieldFormat: TextFieldFormat(),
     validators: [RequiredValidator()],
-    wrappers: [
-      LableWrapper('Value'),
-      ErrorMessageWrapper(),
-      PaddingWrapper(const EdgeInsets.symmetric(vertical: 16)),
-    ],
+    wrappers: [const DefaultValueWrapper(label: 'value')],
     parent: this,
   );
 
@@ -211,7 +198,7 @@ class GreaterThanForm extends ObjectField<GreaterThan> {
   }) : super();
 
   late final keyField = ValueField<PersonGreaterThanField, String>(
-    fieldFormat: DropdownFieldFormat(
+    fieldFormat: SelectFieldFormat(
       options: PersonGreaterThanField.values,
       toDisplay: (value) => value?.name,
     ),
@@ -246,7 +233,7 @@ class LessThanForm extends ObjectField<LessThan> {
   }) : super();
 
   late final keyField = ValueField<PersonLessThanField, String>(
-    fieldFormat: DropdownFieldFormat(
+    fieldFormat: SelectFieldFormat(
       options: PersonLessThanField.values,
       toDisplay: (value) => value?.name,
     ),
@@ -281,7 +268,7 @@ class ContainsForm extends ObjectField<Contains> {
   }) : super();
 
   late final keyField = ValueField<PersonContainsField, String>(
-    fieldFormat: DropdownFieldFormat(
+    fieldFormat: SelectFieldFormat(
       options: PersonContainsField.values,
       toDisplay: (value) => value?.name,
     ),
