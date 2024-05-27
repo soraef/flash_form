@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flash_form/flash_form.dart';
+import 'package:flash_form/src/flash_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -24,7 +25,9 @@ abstract class FieldWrapper<TValue, TView> {
   Widget build(Widget fieldWidget, FlashField flashField);
 }
 
-abstract class FlashField<TValue, TView> with ChangeNotifier {
+abstract class FlashField<TValue, TView>
+    with ChangeNotifier
+    implements FlashLayout {
   late final int id;
 
   final FieldFormat fieldFormat;
@@ -73,7 +76,7 @@ abstract class FlashField<TValue, TView> with ChangeNotifier {
 
   bool validate() {
     validatorResults = validators.validate(this);
-    print('field ${fieldFormat.name}');
+
     print(validatorResults);
     notifyListeners();
 
@@ -214,6 +217,30 @@ class FlashFormContext {
 
     return parentChildren.indexOf(id);
   }
+
+  /// 木構造のネストの深さを取得する
+  int depthOf(int id) {
+    final parentId = getParentId(id);
+    if (parentId == null) {
+      return 0;
+    }
+
+    return depthOf(parentId) + 1;
+  }
+
+  /// 木構造でルートまでに何回[FlashFieldType]が出現するかを取得する
+  int countTypeOf(int id, FlashFieldType type) {
+    final parentId = getParentId(id);
+    if (parentId == null) {
+      return 0;
+    }
+
+    if (_fieldMap[parentId] == type) {
+      return countTypeOf(parentId, type) + 1;
+    }
+
+    return countTypeOf(parentId, type);
+  }
 }
 
 class ValueField<TValue, TView> extends FlashField<TValue, TView> {
@@ -226,7 +253,7 @@ class ValueField<TValue, TView> extends FlashField<TValue, TView> {
     required ValueFieldFormat<TValue, TView> super.fieldFormat,
     required super.parent,
     this.value,
-    super.wrappers,
+    super.wrappers = const [DefaultValueWrapper()],
     super.validators,
     this.handleEvent,
   });
@@ -261,7 +288,7 @@ class ListField<TValue, TView> extends FlashField<List<TValue>, List<TView>> {
   void Function(FlashFieldEvent event, ListField<TValue, TView>)? handleEvent;
 
   ListField({
-    super.wrappers,
+    super.wrappers = const [DefaultListWrapper()],
     required super.parent,
     super.fieldFormat = const ListFieldFormat(),
     required this.children,
@@ -273,7 +300,10 @@ class ListField<TValue, TView> extends FlashField<List<TValue>, List<TView>> {
   void updateValue(List<TValue>? newValue) {
     children.clear();
     children.addAll(
-      newValue?.map((value) => childFactory!(value, this)) ?? List.empty(),
+      newValue?.map(
+            (value) => childFactory!(value, this)..updateValue(value),
+          ) ??
+          List.empty(),
     );
     notifyListeners();
   }
@@ -309,11 +339,9 @@ class ListField<TValue, TView> extends FlashField<List<TValue>, List<TView>> {
 
     if (event is ListItemRemoveEvent) {
       print(
-        'event $event field ${event.field} fieldId ${event.field.id} id $id',
-      );
+          'event $event field ${event.field} fieldId ${event.field.id} id $id');
       print(
-        'isParentChild ${context.isParentChild(childId: event.field.id, parentId: id)}',
-      );
+          'isParentChild ${context.isParentChild(childId: event.field.id, parentId: id)}');
       print(context._idMap);
     }
   }
@@ -352,6 +380,8 @@ abstract class ObjectField<T> extends FlashField<T, T> {
   }) : super();
 
   List<FlashField> get fields;
+
+  List<FlashLayout>? get layout => null;
 
   T toModel();
   void fromModel(T model);
@@ -405,7 +435,7 @@ class TypeField<TValue, TView, TOption> extends FlashField<TValue, TView> {
   TypeFieldEventHandler<TValue, TView, TOption>? handleEvent;
 
   TypeField({
-    super.wrappers,
+    super.wrappers = const [DefaultTypeWrapper()],
     super.fieldFormat = const TypeFieldFormat(),
     required this.typeOptions,
     required this.typeFactory,
@@ -447,6 +477,7 @@ class TypeField<TValue, TView, TOption> extends FlashField<TValue, TView> {
     }
 
     type = typeFactory(newValue);
+    selectedField = factory(type, this);
     selectedField?.updateValue(newValue);
     notifyListeners();
   }
