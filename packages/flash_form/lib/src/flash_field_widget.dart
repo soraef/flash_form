@@ -112,17 +112,18 @@ class ListFieldWidget extends StatelessWidget {
         return item.build();
       },
       bottomBuilder: (context) {
-        return Row(
-          children: [
-            const Spacer(),
-            OutlinedButton(
-              onPressed: () {
-                field.addField();
-              },
-              child: const Text('Add'),
-            ),
-          ],
-        );
+        // return Row(
+        //   children: [
+        //     const Spacer(),
+        //     OutlinedButton(
+        //       onPressed: () {
+        //         field.addField();
+        //       },
+        //       child: const Text('Add'),
+        //     ),
+        //   ],
+        // );
+        return Container();
       },
     );
   }
