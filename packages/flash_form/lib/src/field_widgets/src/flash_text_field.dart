@@ -35,9 +35,10 @@ class _FlashTextFieldState extends State<FlashTextField> {
     final currentText = widget.field.viewValue ?? '';
 
     if (currentText != _controller.text) {
-      widget.field.updateValue(
-        widget.field.convertViewToValue(_controller.text),
-      );
+      final value = widget.field.convertViewToValue(_controller.text);
+      if (value != null) {
+        widget.field.updateValue(value);
+      }
     }
   }
 

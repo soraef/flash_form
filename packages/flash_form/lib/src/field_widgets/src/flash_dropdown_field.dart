@@ -79,7 +79,7 @@ class DropdonwFieldItemParameters {
   });
 }
 
-class FlashDropdownField<T> extends StatelessWidget {
+class FlashDropdownField<T extends Object> extends StatelessWidget {
   final ValueField field;
   final DropdownParameters? dropdownParams;
 
@@ -96,7 +96,7 @@ class FlashDropdownField<T> extends StatelessWidget {
     return DropdownButtonFormField(
       value: field.value,
       items: [
-        for (var option in format.options)
+        for (var option in format.options!)
           DropdownMenuItem(
             value: option,
             alignment: params.itemParams?.alignment ??
