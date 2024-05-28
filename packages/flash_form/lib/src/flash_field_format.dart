@@ -1,3 +1,4 @@
+import 'package:flash_form/src/field_widgets/src/flash_autocomplete_field.dart';
 import 'package:flutter/widgets.dart';
 
 import 'field_widgets/field_widgets.dart';
@@ -47,7 +48,7 @@ class TextFieldFormat extends ValueFieldFormat<String, String> {
   }
 }
 
-class NumberFieldFormat extends ValueFieldFormat<int, String> {
+class NumberFieldFormat extends ValueFieldFormat<num, String> {
   final TextFieldParameters? textFieldParams;
   NumberFieldFormat({
     this.textFieldParams,
@@ -57,7 +58,7 @@ class NumberFieldFormat extends ValueFieldFormat<int, String> {
   int? fromView(String? value) => int.tryParse(value ?? '');
 
   @override
-  String? toView(int? value) => value?.toString();
+  String? toView(num? value) => value?.toString();
 
   @override
   Widget createFieldWidget(FlashField field) {
@@ -69,19 +70,63 @@ class NumberFieldFormat extends ValueFieldFormat<int, String> {
   }
 }
 
-class SelectFieldFormat<T> extends ValueFieldFormat<T, String> {
-  final List<T> options;
+enum SelectFieldMode {
+  dropdown,
+  autocomplete,
+}
+
+class SelectFieldFormat<T extends Object> extends ValueFieldFormat<T, String> {
+  final List<T>? options;
   final String? Function(T? value) toDisplay;
+  final SelectFieldMode mode;
   final DropdownParameters? dropdownParams;
+  final AutocompleteParameters<T>? autocompleteParams;
+  final Iterable<T> Function(String text)? optionsBuilder;
 
   SelectFieldFormat({
-    required this.options,
     required this.toDisplay,
+    this.options,
+    this.mode = SelectFieldMode.dropdown,
     this.dropdownParams,
+    this.autocompleteParams,
+    this.optionsBuilder,
   });
+
+  factory SelectFieldFormat.dropdown({
+    required List<T> options,
+    required String? Function(T? value) toDisplay,
+    DropdownParameters? dropdownParams,
+  }) =>
+      SelectFieldFormat(
+        options: options,
+        toDisplay: toDisplay,
+        mode: SelectFieldMode.dropdown,
+        dropdownParams: dropdownParams,
+      );
+
+  factory SelectFieldFormat.autocomplete({
+    required String? Function(T? value) toDisplay,
+    AutocompleteParameters<T>? autocompleteParams,
+    required Iterable<T> Function(String text) optionsBuilder,
+  }) =>
+      SelectFieldFormat(
+        toDisplay: toDisplay,
+        mode: SelectFieldMode.autocomplete,
+        autocompleteParams: autocompleteParams,
+        optionsBuilder: optionsBuilder,
+      );
 
   @override
   Widget createFieldWidget(FlashField field) {
+    if (mode == SelectFieldMode.autocomplete) {
+      return FlashAutoCompleteField<T>(
+        key: ObjectKey(field),
+        field: field as ValueField,
+        params: autocompleteParams,
+        optionsBuilder: optionsBuilder!,
+      );
+    }
+
     return FlashDropdownField(
       key: ObjectKey(field),
       field: field as ValueField,
@@ -91,7 +136,7 @@ class SelectFieldFormat<T> extends ValueFieldFormat<T, String> {
 
   @override
   T? fromView(String? value) {
-    for (var option in options) {
+    for (var option in options!) {
       if (toDisplay(option) == value) {
         return option;
       }
