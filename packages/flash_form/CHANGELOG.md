@@ -14,3 +14,6 @@
 * Updated the `FlashField` class to implement `FlashLayout`.
 * Added flash field validator and wrapper classes.
 * Updated field format classes and added flash field validator.
+
+## 0.0.4
+* feat: Add FlashAutocompleteField widget for autocomplete input in FlashForm
