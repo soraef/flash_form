@@ -1,5 +1,4 @@
 import 'package:flash_form/flash_form.dart';
-import 'package:flash_form/src/field_widgets/field_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -42,7 +41,7 @@ class AutocompleteParameters<T> {
     required String Function(T) displayStringForOption,
     void Function(T)? onSelected,
   }) {
-    final _textFieldKey = GlobalKey();
+    final textFieldKey = GlobalKey();
 
     return AutocompleteParameters(
       optionsMaxHeight: optionsMaxHeight ?? 200.0,
@@ -53,7 +52,7 @@ class AutocompleteParameters<T> {
           FocusNode focusNode,
           void Function() onFieldSubmitted) {
         return TextField(
-          key: _textFieldKey,
+          key: textFieldKey,
           controller: textEditingController,
           focusNode: focusNode,
           onSubmitted: (String value) => onFieldSubmitted(),
@@ -65,7 +64,7 @@ class AutocompleteParameters<T> {
         options,
       ) {
         final textFieldBox =
-            _textFieldKey.currentContext!.findRenderObject() as RenderBox;
+            textFieldKey.currentContext!.findRenderObject() as RenderBox;
         final textFieldWidth = textFieldBox.size.width;
         // 入力候補リストの表示枠のWidgetを定義
         return Align(

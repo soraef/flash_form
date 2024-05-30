@@ -22,13 +22,13 @@ class FlashFormWidget extends StatelessWidget {
               children: form.layout!.map((field) => field.build()).toList(),
             ),
           ),
-        if (form.isListItem)
-          IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () {
-              form.sendEvent(ListItemRemoveEvent(form));
-            },
-          ),
+        // if (form.isListItem)
+        //   IconButton(
+        //     icon: const Icon(Icons.close),
+        //     onPressed: () {
+        //       form.sendEvent(ListItemRemoveEvent(form));
+        //     },
+        //   ),
       ],
     );
   }
@@ -185,13 +185,13 @@ class TypeFieldWidget<TView, TValue, TOption> extends StatelessWidget {
               },
             ),
             const Spacer(),
-            if (field.isListItem)
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  field.sendEvent(ListItemRemoveEvent(field));
-                },
-              ),
+            // if (field.isListItem)
+            //   IconButton(
+            //     icon: const Icon(Icons.close),
+            //     onPressed: () {
+            //       field.sendEvent(ListItemRemoveEvent(field));
+            //     },
+            //   ),
           ],
         ),
         if (field.selectedFieldFormat != null) field.selectedField!.build(),

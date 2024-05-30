@@ -1,4 +1,3 @@
-import 'package:flash_form/src/field_widgets/src/flash_autocomplete_field.dart';
 import 'package:flutter/widgets.dart';
 
 import 'field_widgets/field_widgets.dart';
