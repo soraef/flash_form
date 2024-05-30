@@ -17,3 +17,6 @@
 
 ## 0.0.4
 * feat: Add FlashAutocompleteField widget for autocomplete input in FlashForm
+
+## 0.0.5
+feat: Add ListItemAddEvent and widget for adding list items
