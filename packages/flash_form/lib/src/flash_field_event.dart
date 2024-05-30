@@ -20,3 +20,22 @@ class ValueChangeEvent extends FlashFieldEvent {
     return 'ValueChangeEvent{id: $id, value: $value}';
   }
 }
+
+enum InsertPosition {
+  above,
+  below,
+}
+
+class ListItemAddEvent extends FlashFieldEvent {
+  final FlashField field;
+  final InsertPosition position;
+  ListItemAddEvent({
+    required this.field,
+    required this.position,
+  });
+
+  @override
+  String toString() {
+    return 'ListItemAddEvent{field: $field, position: $position}';
+  }
+}

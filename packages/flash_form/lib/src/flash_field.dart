@@ -315,6 +315,16 @@ class ListField<TValue, TView> extends FlashField<List<TValue>, List<TView>> {
     notifyListeners();
   }
 
+  void insertField(int index) {
+    if (childFactory == null) {
+      return;
+    }
+    final child = childFactory!(null, this);
+
+    children.insert(index, child);
+    notifyListeners();
+  }
+
   void removeField(FlashField<TValue, TView> field) {
     children.remove(field);
     context.removeId(field.id);
@@ -329,6 +339,24 @@ class ListField<TValue, TView> extends FlashField<List<TValue>, List<TView>> {
           parentId: id,
         )) {
       removeField(event.field as FlashField<TValue, TView>);
+    }
+
+    if (event is ListItemAddEvent &&
+        context.isParentChild(
+          childId: event.field.id,
+          parentId: id,
+        )) {
+      final index = context.indexOf(event.field.id);
+      if (index == -1) {
+        return;
+      }
+
+      final position = event.position;
+      if (position == InsertPosition.above) {
+        insertField(index);
+      } else {
+        insertField(index + 1);
+      }
     }
 
     if (event is ListItemRemoveEvent) {}
@@ -362,7 +390,7 @@ class ListField<TValue, TView> extends FlashField<List<TValue>, List<TView>> {
 
 abstract class ObjectField<T> extends FlashField<T, T> {
   ObjectField({
-    super.wrappers,
+    super.wrappers = const [DefaultObjectWrapper()],
     required super.parent,
     super.fieldFormat = const ModelFieldFormat(),
   }) : super();

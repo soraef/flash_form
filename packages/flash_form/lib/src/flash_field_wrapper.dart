@@ -1,9 +1,6 @@
 import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
 
-import 'flash_field.dart';
-import 'flash_field_validator.dart';
-
 class LableWrapper<TValue, TView> implements FieldWrapper<TValue, TView> {
   final String text;
   final String? description;
@@ -113,13 +110,13 @@ class DefaultValueWrapper<TValue, TView>
   final EdgeInsetsGeometry padding;
   final String? label;
   final String? description;
-  final bool enableListRemoveButton;
+  final bool enbableMenu;
 
   const DefaultValueWrapper({
     this.label,
     this.description,
     this.padding = const EdgeInsets.only(bottom: 0.0),
-    this.enableListRemoveButton = true,
+    this.enbableMenu = true,
   });
 
   @override
@@ -133,9 +130,10 @@ class DefaultValueWrapper<TValue, TView>
       ).build(widget, flashField);
     }
     widget = ErrorMessageWrapper<TValue, TView>().build(widget, flashField);
-
-    if (isListItem && enableListRemoveButton) {
-      widget = const ListItemRemoveWrapper().build(widget, flashField);
+    if (isListItem && enbableMenu) {
+      widget = const ListItemMenuWrapper(
+        rowAlignment: CrossAxisAlignment.center,
+      ).build(widget, flashField);
     }
 
     widget = PaddingWrapper(padding).build(widget, flashField);
@@ -147,23 +145,30 @@ class DefaultTypeWrapper<TValue, TView> implements FieldWrapper<TValue, TView> {
   final EdgeInsetsGeometry padding;
   final String? label;
   final String? description;
+  final bool enbableMenu;
 
   const DefaultTypeWrapper({
     this.label,
     this.description,
     this.padding = const EdgeInsets.all(16.0),
+    this.enbableMenu = true,
   });
 
   @override
   Widget build(Widget fieldWidget, FlashField flashField) {
     var widget =
         ErrorMessageWrapper<TValue, TView>().build(fieldWidget, flashField);
+    if (flashField.isListItem && enbableMenu) {
+      widget = const ListItemMenuWrapper().build(widget, flashField);
+    }
     if (label != null) {
       widget = LableWrapper<TValue, TView>(
         label!,
         description: description,
+        padding: const EdgeInsets.only(top: 0.0),
       ).build(widget, flashField);
     }
+
     widget = CardWrapper(padding: padding).build(widget, flashField);
     return widget;
   }
@@ -195,25 +200,103 @@ class DefaultListWrapper implements FieldWrapper {
   }
 }
 
-class ListItemRemoveWrapper implements FieldWrapper {
+class DefaultObjectWrapper implements FieldWrapper {
   final EdgeInsetsGeometry padding;
+  final String? label;
+  final String? description;
+  final bool enbableMenu;
 
-  const ListItemRemoveWrapper({
+  const DefaultObjectWrapper({
+    this.label,
+    this.description,
+    this.padding = const EdgeInsets.only(bottom: 0.0),
+    this.enbableMenu = true,
+  });
+
+  @override
+  Widget build(Widget fieldWidget, FlashField flashField) {
+    var widget = ErrorMessageWrapper().build(fieldWidget, flashField);
+
+    if (flashField.isListItem && enbableMenu) {
+      widget = const ListItemMenuWrapper().build(widget, flashField);
+    }
+
+    if (label != null) {
+      widget = LableWrapper(
+        label!,
+        description: description,
+      ).build(widget, flashField);
+    }
+    widget = PaddingWrapper(padding).build(widget, flashField);
+    return widget;
+  }
+}
+
+class ListItemMenuWrapper implements FieldWrapper {
+  final EdgeInsetsGeometry padding;
+  final CrossAxisAlignment rowAlignment;
+
+  const ListItemMenuWrapper({
     this.padding = const EdgeInsets.all(8.0),
+    this.rowAlignment = CrossAxisAlignment.start,
   });
 
   @override
   Widget build(Widget fieldWidget, FlashField flashField) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: rowAlignment,
       children: [
         Expanded(child: fieldWidget),
-        IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () {
-            flashField.sendEvent(ListItemRemoveEvent(flashField));
+        PopupMenuButton(
+          itemBuilder: (context) {
+            return [
+              PopupMenuItem(
+                child: ListTile(
+                  title:
+                      const Text('Remove', style: TextStyle(color: Colors.red)),
+                  onTap: () {
+                    flashField.sendEvent(ListItemRemoveEvent(flashField));
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+
+              /// 一つ上に追加
+              PopupMenuItem(
+                child: ListTile(
+                  title: const Text('Add above'),
+                  onTap: () {
+                    flashField.sendEvent(ListItemAddEvent(
+                      field: flashField,
+                      position: InsertPosition.above,
+                    ));
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+
+              /// 一つ下に追加
+              PopupMenuItem(
+                child: ListTile(
+                  title: const Text('Add below'),
+                  onTap: () {
+                    flashField.sendEvent(ListItemAddEvent(
+                      field: flashField,
+                      position: InsertPosition.below,
+                    ));
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ];
           },
         ),
+        // IconButton(
+        //   icon: const Icon(Icons.close),
+        //   onPressed: () {
+        //     flashField.sendEvent(ListItemRemoveEvent(flashField));
+        //   },
+        // ),
       ],
     );
   }
