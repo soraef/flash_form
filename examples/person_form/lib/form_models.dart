@@ -120,6 +120,9 @@ class PersonForm extends ModelSchema<Person> {
 class ChildForm extends ModelSchema<Child> {
   ChildForm({super.parent})
       : super(
+          decorators: [
+            CardDecorator(),
+          ],
           fieldFormat: const ModelFieldFormat(),
         );
 

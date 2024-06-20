@@ -20,3 +20,9 @@
 
 ## 0.0.5
 feat: Add ListItemAddEvent and widget for adding list items
+
+## 0.0.6
+Refactor: Rename some classes for clarity
+
+## 0.0.7
+Update: Change default decorator padding
