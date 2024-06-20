@@ -1,25 +1,21 @@
 import 'dart:async';
 
 import 'package:flash_form/flash_form.dart';
+import 'package:flash_form/src/base/base.dart';
+import 'package:flash_form/src/base/src/flash_field_decorator.dart';
+import 'package:flash_form/src/events/events.dart';
+import 'package:flash_form/src/fields/src/list_field/formats/list_field_format.dart';
+import 'package:flash_form/src/fields/src/model_field/formats/model_field_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../../fields/src/type_field/type_field.dart';
 
 enum FlashFieldType {
   value,
   list,
   type,
   object,
-}
-
-typedef BuildWrapper<TValue, TView> = Widget Function(
-  Widget fieldWidget,
-  FlashField<TValue, TView> flashField,
-);
-
-abstract class FieldWrapper<TValue, TView> {
-  FieldWrapper();
-
-  Widget build(Widget fieldWidget, FlashField flashField);
 }
 
 abstract class FlashField<TValue, TView>
@@ -30,7 +26,7 @@ abstract class FlashField<TValue, TView>
   final FieldFormat fieldFormat;
   final FlashField? parent;
   late final FlashFormContext context;
-  List<FieldWrapper>? wrappers;
+  List<FieldDecorator>? wrappers;
   List<Validator> validators;
   List<ValidatorResult> validatorResults = [];
 
@@ -64,7 +60,7 @@ abstract class FlashField<TValue, TView>
       field: this,
       builder: (context) {
         var field = fieldFormat.createFieldWidget(this);
-        for (var wrapper in wrappers ?? <FieldWrapper<dynamic, dynamic>>[]) {
+        for (var wrapper in wrappers ?? <FieldDecorator<dynamic, dynamic>>[]) {
           field = wrapper.build(field, this);
         }
         return field;
@@ -72,8 +68,8 @@ abstract class FlashField<TValue, TView>
     );
   }
 
-  bool validate() {
-    validatorResults = validators.validate(this);
+  Future<bool> validate() async {
+    validatorResults = await validators.validate(this);
 
     notifyListeners();
 
@@ -250,7 +246,7 @@ class ValueField<TValue, TView> extends FlashField<TValue, TView> {
     required ValueFieldFormat<TValue, TView> super.fieldFormat,
     required super.parent,
     this.value,
-    super.wrappers = const [DefaultValueWrapper()],
+    super.wrappers = const [DefaultValueDecorator()],
     super.validators,
     this.handleEvent,
   });
@@ -285,7 +281,7 @@ class ListField<TValue, TView> extends FlashField<List<TValue>, List<TView>> {
   void Function(FlashFieldEvent event, ListField<TValue, TView>)? handleEvent;
 
   ListField({
-    super.wrappers = const [DefaultListWrapper()],
+    super.wrappers = const [DefaultListDecorator()],
     required super.parent,
     super.fieldFormat = const ListFieldFormat(),
     required this.children,
@@ -332,6 +328,33 @@ class ListField<TValue, TView> extends FlashField<List<TValue>, List<TView>> {
     notifyListeners();
   }
 
+  void moveField(FlashField<TValue, TView> field, MoveType moveType) {
+    final index = children.indexOf(field);
+    if (index == -1) {
+      return;
+    }
+
+    late int newIndex;
+    if (moveType == MoveType.up1) {
+      newIndex = index - 1;
+    } else if (moveType == MoveType.down1) {
+      newIndex = index + 1;
+    } else if (moveType == MoveType.top) {
+      newIndex = 0;
+    } else if (moveType == MoveType.bottom) {
+      newIndex = children.length - 1;
+    }
+
+    if (newIndex < 0 || newIndex >= children.length) {
+      return;
+    }
+
+    children.remove(field);
+    children.insert(newIndex, field);
+
+    notifyListeners();
+  }
+
   void _handleChildEvent(FlashFieldEvent event) {
     if (event is ListItemRemoveEvent &&
         context.isParentChild(
@@ -359,6 +382,14 @@ class ListField<TValue, TView> extends FlashField<List<TValue>, List<TView>> {
       }
     }
 
+    if (event is ListItemMoveEvent &&
+        context.isParentChild(
+          childId: event.field.id,
+          parentId: id,
+        )) {
+      moveField(event.field as FlashField<TValue, TView>, event.moveType);
+    }
+
     if (event is ListItemRemoveEvent) {}
   }
 
@@ -374,10 +405,10 @@ class ListField<TValue, TView> extends FlashField<List<TValue>, List<TView>> {
   }
 
   @override
-  bool validate() {
-    bool isValid = super.validate();
+  Future<bool> validate() async {
+    bool isValid = await super.validate();
     for (var child in children) {
-      isValid = child.validate() && isValid;
+      isValid = await child.validate() && isValid;
     }
     notifyListeners();
 
@@ -390,7 +421,7 @@ class ListField<TValue, TView> extends FlashField<List<TValue>, List<TView>> {
 
 abstract class ObjectField<T> extends FlashField<T, T> {
   ObjectField({
-    super.wrappers = const [DefaultObjectWrapper()],
+    super.wrappers = const [DefaultObjectDecorator()],
     required super.parent,
     super.fieldFormat = const ModelFieldFormat(),
   }) : super();
@@ -414,10 +445,10 @@ abstract class ObjectField<T> extends FlashField<T, T> {
   }
 
   @override
-  bool validate() {
-    bool isValid = super.validate();
+  Future<bool> validate() async {
+    bool isValid = await super.validate();
     for (var field in fields) {
-      isValid = field.validate() && isValid;
+      isValid = await field.validate() && isValid;
     }
     notifyListeners();
 
@@ -451,7 +482,7 @@ class TypeField<TValue, TView, TOption> extends FlashField<TValue, TView> {
   TypeFieldEventHandler<TValue, TView, TOption>? handleEvent;
 
   TypeField({
-    super.wrappers = const [DefaultTypeWrapper()],
+    super.wrappers = const [DefaultTypeDecorator()],
     super.fieldFormat = const TypeFieldFormat(),
     required this.typeOptions,
     required this.typeFactory,
@@ -503,10 +534,10 @@ class TypeField<TValue, TView, TOption> extends FlashField<TValue, TView> {
   }
 
   @override
-  bool validate() {
-    bool isValid = super.validate();
+  Future<bool> validate() async {
+    bool isValid = await super.validate();
     if (selectedField != null) {
-      isValid = selectedField!.validate() && isValid;
+      isValid = await selectedField!.validate() && isValid;
     }
     notifyListeners();
 

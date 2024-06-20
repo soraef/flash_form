@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            FlashFormWidget(form: form),
+            FlashObjectField(form: form),
             Padding(
               padding: const EdgeInsets.all(32.0),
               child: ElevatedButton(

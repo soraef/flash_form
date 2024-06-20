@@ -4,7 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../flash_field.dart';
+import '../../../../base/src/flash_field.dart';
 
 class FlashTextField<T> extends StatefulWidget {
   final ValueField field;

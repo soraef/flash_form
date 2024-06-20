@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../flash_field.dart';
-import '../../flash_field_format.dart';
+import '../../../../base/src/flash_field.dart';
+import '../formats/select_field_format.dart';
 
 class DropdownParameters<T> {
   final Key? key;

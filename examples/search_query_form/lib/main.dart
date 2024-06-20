@@ -71,10 +71,10 @@ class _MyHomePageState extends State<MyHomePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              FlashFormWidget(form: form),
+              FlashModelField(form: form),
               ElevatedButton(
-                onPressed: () {
-                  final isValid = form.validate();
+                onPressed: () async {
+                  final isValid = await form.validate();
                   print(isValid);
                   if (!isValid) {
                     return;
