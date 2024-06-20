@@ -7,15 +7,15 @@ class ListFieldFormat extends FieldFormat {
   const ListFieldFormat();
 
   @override
-  Widget createFieldWidget(FlashField field) {
-    return FlashListField(field: field as ListField);
+  Widget createFieldWidget(FieldSchema field) {
+    return FlashListField(field: field as ListSchema);
   }
 
   @override
-  Widget createPreviewWidget(FlashField field) {
+  Widget createPreviewWidget(FieldSchema field) {
     return ListPreviewWidget(
       key: ObjectKey(field),
-      field: field as ListField,
+      field: field as ListSchema,
     );
   }
 }

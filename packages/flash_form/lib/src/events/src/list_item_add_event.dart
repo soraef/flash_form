@@ -5,8 +5,8 @@ enum InsertPosition {
   below,
 }
 
-class ListItemAddEvent extends FlashFieldEvent {
-  final FlashField field;
+class ListItemAddEvent extends FormEvent {
+  final FieldSchema field;
   final InsertPosition position;
   ListItemAddEvent({
     required this.field,

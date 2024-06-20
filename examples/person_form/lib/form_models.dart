@@ -1,26 +1,26 @@
 import 'package:person_form/models.dart';
 import 'package:flash_form/flash_form.dart';
 
-class PersonForm extends ObjectField<Person> {
+class PersonForm extends ModelSchema<Person> {
   PersonForm() : super(label: 'Person Form');
 
-  final nameField = ValueField<String, String>(
+  final nameField = ValueSchema<String, String>(
     label: 'Name',
     fieldFormat: TextFieldFormat(),
     value: null,
   );
 
-  final ageField = ValueField<int, String>(
+  final ageField = ValueSchema<int, String>(
     label: 'Age',
     fieldFormat: NumberFieldFormat(),
     value: 20,
   );
 
-  final hobbyField = ListField<String, String>(
+  final hobbyField = ListSchema<String, String>(
     label: 'Hobby',
     children: [],
     childFactory: (value) {
-      return ValueField<String, String>(
+      return ValueSchema<String, String>(
         label: 'Hobby',
         fieldFormat: TextFieldFormat(),
         value: value,
@@ -28,7 +28,7 @@ class PersonForm extends ObjectField<Person> {
     },
   );
 
-  final childrenField = ListField<Child, Child>(
+  final childrenField = ListSchema<Child, Child>(
     label: 'Children',
     children: [],
     childFactory: (value) {
@@ -36,7 +36,7 @@ class PersonForm extends ObjectField<Person> {
     },
   );
 
-  final roleField = TypeField<Role, Role, Type>(
+  final roleField = TypeSchema<Role, Role, Type>(
     label: 'Role',
     fields: {
       Student: () => StudentForm(),
@@ -47,7 +47,7 @@ class PersonForm extends ObjectField<Person> {
   );
 
   @override
-  List<FlashField> get fields => [
+  List<FieldSchema> get fields => [
         nameField,
         ageField,
         hobbyField,
@@ -76,27 +76,27 @@ class PersonForm extends ObjectField<Person> {
   }
 }
 
-class ChildForm extends ObjectField<Child> {
+class ChildForm extends ModelSchema<Child> {
   ChildForm()
       : super(
           label: 'Child Form',
           fieldFormat: const ModelFieldFormat(),
         );
 
-  final nameField = ValueField<String, String>(
+  final nameField = ValueSchema<String, String>(
     label: 'Name',
     fieldFormat: TextFieldFormat(),
     value: '',
   );
 
-  final ageField = ValueField<int, String>(
+  final ageField = ValueSchema<int, String>(
     label: 'Age',
     fieldFormat: NumberFieldFormat(),
     value: 12,
   );
 
   @override
-  List<FlashField> get fields => [nameField, ageField];
+  List<FieldSchema> get fields => [nameField, ageField];
 
   @override
   void fromModel(Child model) {
@@ -113,21 +113,21 @@ class ChildForm extends ObjectField<Child> {
   }
 }
 
-class StudentForm extends ObjectField<Student> {
+class StudentForm extends ModelSchema<Student> {
   StudentForm()
       : super(
           label: 'Student Form',
           fieldFormat: const ModelFieldFormat(),
         );
 
-  final schoolField = ValueField<String, String>(
+  final schoolField = ValueSchema<String, String>(
     label: 'School',
     fieldFormat: TextFieldFormat(),
     value: null,
   );
 
   @override
-  List<FlashField> get fields => [schoolField];
+  List<FieldSchema> get fields => [schoolField];
 
   @override
   void fromModel(Student model) {
@@ -142,21 +142,21 @@ class StudentForm extends ObjectField<Student> {
   }
 }
 
-class EmployeeForm extends ObjectField<Employee> {
+class EmployeeForm extends ModelSchema<Employee> {
   EmployeeForm()
       : super(
           label: 'Employee Form',
           fieldFormat: const ModelFieldFormat(),
         );
 
-  final companyField = ValueField<String, String>(
+  final companyField = ValueSchema<String, String>(
     label: 'Company',
     fieldFormat: TextFieldFormat(),
     value: null,
   );
 
   @override
-  List<FlashField> get fields => [companyField];
+  List<FieldSchema> get fields => [companyField];
 
   @override
   void fromModel(Employee model) {

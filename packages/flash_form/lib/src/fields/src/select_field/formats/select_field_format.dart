@@ -48,11 +48,11 @@ class SelectFieldFormat<T extends Object> extends ValueFieldFormat<T, String> {
       );
 
   @override
-  Widget createFieldWidget(FlashField field) {
+  Widget createFieldWidget(FieldSchema field) {
     if (mode == SelectFieldMode.autocomplete) {
       return FlashAutoCompleteField<T>(
         key: ObjectKey(field),
-        field: field as ValueField,
+        field: field as ValueSchema,
         params: autocompleteParams,
         optionsBuilder: optionsBuilder!,
       );
@@ -60,7 +60,7 @@ class SelectFieldFormat<T extends Object> extends ValueFieldFormat<T, String> {
 
     return FlashDropdownField(
       key: ObjectKey(field),
-      field: field as ValueField,
+      field: field as ValueSchema,
       dropdownParams: dropdownParams,
     );
   }

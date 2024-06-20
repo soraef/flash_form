@@ -2,7 +2,7 @@ import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
 
 class FlashListField extends StatelessWidget {
-  final ListField field;
+  final ListSchema field;
   const FlashListField({
     super.key,
     required this.field,
@@ -37,10 +37,10 @@ class FlashListField extends StatelessWidget {
 }
 
 class ListFieldBuilder extends StatelessWidget {
-  final ListField field;
+  final ListSchema field;
   final Widget Function(BuildContext context)? topBuilder;
   final Widget Function(BuildContext context)? bottomBuilder;
-  final Widget Function(BuildContext context, FlashField field) itemBuilder;
+  final Widget Function(BuildContext context, FieldSchema field) itemBuilder;
 
   const ListFieldBuilder({
     super.key,

@@ -14,10 +14,10 @@ class TextFieldFormat extends ValueFieldFormat<String, String> {
   String? toView(String? value) => value;
 
   @override
-  Widget createFieldWidget(FlashField field) {
+  Widget createFieldWidget(FieldSchema field) {
     return FlashTextField(
       key: ObjectKey(field),
-      field: field as ValueField,
+      field: field as ValueSchema,
       textFieldParams: textFieldParams,
     );
   }

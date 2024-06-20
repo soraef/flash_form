@@ -15,7 +15,7 @@ class DefaultObjectDecorator implements FieldDecorator {
   });
 
   @override
-  Widget build(Widget fieldWidget, FlashField flashField) {
+  Widget build(Widget fieldWidget, FieldSchema flashField) {
     var widget = ErrorMessageDecorator().build(fieldWidget, flashField);
 
     if (flashField.isListItem && enbableMenu) {

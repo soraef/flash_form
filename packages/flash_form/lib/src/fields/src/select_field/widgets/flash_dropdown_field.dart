@@ -1,7 +1,5 @@
+import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../base/src/flash_field.dart';
-import '../formats/select_field_format.dart';
 
 class DropdownParameters<T> {
   final Key? key;
@@ -80,7 +78,7 @@ class DropdonwFieldItemParameters {
 }
 
 class FlashDropdownField<T extends Object> extends StatelessWidget {
-  final ValueField field;
+  final ValueSchema field;
   final DropdownParameters? dropdownParams;
 
   const FlashDropdownField({

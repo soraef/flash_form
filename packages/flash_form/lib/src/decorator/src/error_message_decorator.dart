@@ -6,7 +6,7 @@ class ErrorMessageDecorator<TValue, TView>
   ErrorMessageDecorator();
 
   @override
-  Widget build(Widget fieldWidget, FlashField flashField) {
+  Widget build(Widget fieldWidget, FieldSchema flashField) {
     final errors = flashField.validatorResults;
 
     return Column(

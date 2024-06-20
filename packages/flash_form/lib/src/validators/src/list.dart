@@ -11,14 +11,14 @@ class ListContainsValidatorResult extends ValidatorResult {
 }
 
 class ListContainsValidator<TValue, TView>
-    extends Validator<List<TValue>, TView> {
+    extends FieldValidator<List<TValue>, TView> {
   final TValue requiredElement;
   final String? message;
 
   ListContainsValidator({required this.requiredElement, this.message});
 
   @override
-  List<ValidatorResult> validate(FlashField<List<TValue>, TView> field) {
+  List<ValidatorResult> validate(FieldSchema<List<TValue>, TView> field) {
     if (field.value == null || !field.value!.contains(requiredElement)) {
       return [ListContainsValidatorResult(message: message)];
     }
@@ -37,13 +37,13 @@ class ListUniqueValidatorResult extends ValidatorResult {
 }
 
 class ListUniqueValidator<TValue, TView>
-    extends Validator<List<TValue>, TView> {
+    extends FieldValidator<List<TValue>, TView> {
   final String? message;
 
   ListUniqueValidator({this.message});
 
   @override
-  List<ValidatorResult> validate(FlashField<List<TValue>, TView> field) {
+  List<ValidatorResult> validate(FieldSchema<List<TValue>, TView> field) {
     if (field.value == null) {
       return [];
     }

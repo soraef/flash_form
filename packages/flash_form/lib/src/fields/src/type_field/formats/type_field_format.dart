@@ -1,23 +1,22 @@
 import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/flash_type_field.dart';
 
 class TypeFieldFormat<TValue, TView, TOption> extends FieldFormat {
   const TypeFieldFormat();
 
   @override
-  Widget createFieldWidget(FlashField field) {
+  Widget createFieldWidget(FieldSchema field) {
     return FlashTypeField<TValue, TView, TOption>(
       key: ObjectKey(field),
-      field: field as TypeField<TValue, TView, TOption>,
+      field: field as TypeSchema<TValue, TView, TOption>,
     );
   }
 
   @override
-  Widget createPreviewWidget(FlashField field) {
+  Widget createPreviewWidget(FieldSchema field) {
     return TypePreviewWidget(
-      field: field as TypeField,
+      field: field as TypeSchema,
     );
   }
 }

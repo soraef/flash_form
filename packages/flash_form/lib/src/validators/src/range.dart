@@ -1,5 +1,5 @@
-import 'package:flash_form/src/base/src/flash_field.dart';
-import 'package:flash_form/src/base/src/flash_field_validator.dart';
+import 'package:flash_form/src/base/src/field_schema.dart';
+import 'package:flash_form/src/base/src/field_validator.dart';
 
 class RangeValidatorResult extends ValidatorResult {
   RangeValidatorResult({
@@ -11,7 +11,7 @@ class RangeValidatorResult extends ValidatorResult {
         );
 }
 
-class RangeValidator<TValue, TView> extends Validator<TValue, TView> {
+class RangeValidator<TValue, TView> extends FieldValidator<TValue, TView> {
   final num? min;
   final num? max;
   final String? message;
@@ -19,7 +19,7 @@ class RangeValidator<TValue, TView> extends Validator<TValue, TView> {
   RangeValidator({required this.min, required this.max, this.message});
 
   @override
-  List<ValidatorResult> validate(FlashField<TValue, TView> field) {
+  List<ValidatorResult> validate(FieldSchema<TValue, TView> field) {
     final value = field.value;
     if (value == null) {
       return [];
@@ -61,7 +61,7 @@ class ListLengthValidatorResult extends ValidatorResult {
 }
 
 class ListLengthValidator<TValue, TView>
-    extends Validator<List<TValue>, TView> {
+    extends FieldValidator<List<TValue>, TView> {
   final int? min;
   final int? max;
   final String? message;
@@ -69,7 +69,7 @@ class ListLengthValidator<TValue, TView>
   ListLengthValidator({this.min, this.max, this.message});
 
   @override
-  List<ValidatorResult> validate(FlashField<List<TValue>, TView> field) {
+  List<ValidatorResult> validate(FieldSchema<List<TValue>, TView> field) {
     final value = field.value;
     if (value == null) {
       return [];

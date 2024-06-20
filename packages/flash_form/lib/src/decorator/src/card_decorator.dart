@@ -8,7 +8,7 @@ class CardDecorator implements FieldDecorator {
   });
 
   @override
-  Widget build(Widget fieldWidget, FlashField flashField) {
+  Widget build(Widget fieldWidget, FieldSchema flashField) {
     return Card.outlined(
       child: Padding(
         padding: padding,

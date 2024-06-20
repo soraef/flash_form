@@ -1,9 +1,8 @@
+import 'package:flash_form/flash_form.dart';
 import 'package:flutter/widgets.dart';
 
-import 'flash_field.dart';
-
 class FlashPreviewWidget extends StatelessWidget {
-  final ObjectField form;
+  final ModelSchema form;
   const FlashPreviewWidget({super.key, required this.form});
 
   @override
@@ -17,7 +16,7 @@ class FlashPreviewWidget extends StatelessWidget {
 }
 
 class DefaultPreviewWidget extends StatelessWidget {
-  final FlashField field;
+  final FieldSchema field;
   const DefaultPreviewWidget({
     super.key,
     required this.field,
@@ -34,7 +33,7 @@ class DefaultPreviewWidget extends StatelessWidget {
 }
 
 class ListPreviewWidget extends StatelessWidget {
-  final ListField field;
+  final ListSchema field;
   const ListPreviewWidget({super.key, required this.field});
 
   @override
@@ -71,7 +70,7 @@ class ListPreviewWidget extends StatelessWidget {
 }
 
 class TypePreviewWidget extends StatelessWidget {
-  final TypeField field;
+  final TypeSchema field;
   const TypePreviewWidget({super.key, required this.field});
 
   @override

@@ -13,7 +13,7 @@ class DefaultListDecorator implements FieldDecorator {
   });
 
   @override
-  Widget build(Widget fieldWidget, FlashField flashField) {
+  Widget build(Widget fieldWidget, FieldSchema flashField) {
     var widget = ErrorMessageDecorator().build(fieldWidget, flashField);
     if (label != null) {
       widget = LableDecorator(

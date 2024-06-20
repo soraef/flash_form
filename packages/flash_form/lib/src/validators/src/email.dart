@@ -1,5 +1,5 @@
-import 'package:flash_form/src/base/src/flash_field.dart';
-import 'package:flash_form/src/base/src/flash_field_validator.dart';
+import 'package:flash_form/src/base/src/field_schema.dart';
+import 'package:flash_form/src/base/src/field_validator.dart';
 
 class EmailValidatorResult extends ValidatorResult {
   EmailValidatorResult({
@@ -11,14 +11,14 @@ class EmailValidatorResult extends ValidatorResult {
         );
 }
 
-class EmailValidator<TValue, TView> extends Validator<TValue, TView> {
+class EmailValidator<TValue, TView> extends FieldValidator<TValue, TView> {
   final String? message;
   final RegExp emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
 
   EmailValidator({this.message});
 
   @override
-  List<ValidatorResult> validate(FlashField<TValue, TView> field) {
+  List<ValidatorResult> validate(FieldSchema<TValue, TView> field) {
     if (field.value is String && !emailRegex.hasMatch(field.value as String)) {
       return [EmailValidatorResult(message: message)];
     }

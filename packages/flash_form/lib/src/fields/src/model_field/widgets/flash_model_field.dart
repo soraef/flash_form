@@ -2,7 +2,7 @@ import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
 
 class FlashModelField extends StatelessWidget {
-  final ObjectField form;
+  final ModelSchema form;
   const FlashModelField({super.key, required this.form});
 
   @override

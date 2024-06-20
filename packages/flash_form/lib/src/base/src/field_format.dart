@@ -1,15 +1,13 @@
-import 'package:flash_form/src/fields/src/type_field/widgets/flash_type_field.dart';
 import 'package:flutter/widgets.dart';
 
-import 'flash_field.dart';
+import 'field_schema.dart';
 import 'flash_field_preview.dart';
-import 'flash_field_widget.dart';
 
 abstract class FieldFormat {
   const FieldFormat();
 
-  Widget createFieldWidget(FlashField field);
-  Widget createPreviewWidget(FlashField field) {
+  Widget createFieldWidget(FieldSchema field);
+  Widget createPreviewWidget(FieldSchema field) {
     return DefaultPreviewWidget(
       key: UniqueKey(),
       field: field,

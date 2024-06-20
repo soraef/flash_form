@@ -1,20 +1,20 @@
 import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
 
-class FlashFieldWidget extends StatefulWidget {
-  final FlashField field;
+class FieldBuilder extends StatefulWidget {
+  final FieldSchema field;
   final Widget Function(BuildContext context) builder;
-  const FlashFieldWidget({
+  const FieldBuilder({
     super.key,
     required this.field,
     required this.builder,
   });
 
   @override
-  State<FlashFieldWidget> createState() => _FlashFieldWidgetState();
+  State<FieldBuilder> createState() => _FieldBuilderState();
 }
 
-class _FlashFieldWidgetState extends State<FlashFieldWidget> {
+class _FieldBuilderState extends State<FieldBuilder> {
   @override
   void initState() {
     super.initState();
@@ -22,7 +22,7 @@ class _FlashFieldWidgetState extends State<FlashFieldWidget> {
   }
 
   @override
-  void didUpdateWidget(covariant FlashFieldWidget oldWidget) {
+  void didUpdateWidget(covariant FieldBuilder oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.field != widget.field) {

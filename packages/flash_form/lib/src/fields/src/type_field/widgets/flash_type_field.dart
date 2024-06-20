@@ -2,7 +2,7 @@ import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
 
 class FlashTypeField<TView, TValue, TOption> extends StatelessWidget {
-  final TypeField<TView, TValue, TOption> field;
+  final TypeSchema<TView, TValue, TOption> field;
   const FlashTypeField({
     super.key,
     required this.field,

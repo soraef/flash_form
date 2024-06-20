@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flash_form/flash_form.dart';
 
-abstract class Validator<TValue, TView> {
-  FutureOr<List<ValidatorResult>> validate(FlashField<TValue, TView> field);
+abstract class FieldValidator<TValue, TView> {
+  FutureOr<List<ValidatorResult>> validate(FieldSchema<TValue, TView> field);
 }
 
 abstract class ValidatorResult {
@@ -23,9 +23,9 @@ abstract class ValidatorResult {
   }
 }
 
-extension Validators<TValue, TView> on List<Validator<TValue, TView>> {
+extension Validators<TValue, TView> on List<FieldValidator<TValue, TView>> {
   FutureOr<List<ValidatorResult>> validate(
-    FlashField<TValue, TView> field,
+    FieldSchema<TValue, TView> field,
   ) async {
     final results = <ValidatorResult>[];
     for (final validator in this) {

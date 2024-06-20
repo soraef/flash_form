@@ -11,7 +11,7 @@ class ListItemMenuDecorator implements FieldDecorator {
   });
 
   @override
-  Widget build(Widget fieldWidget, FlashField flashField) {
+  Widget build(Widget fieldWidget, FieldSchema flashField) {
     return Row(
       crossAxisAlignment: rowAlignment,
       children: [

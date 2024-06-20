@@ -1,6 +1,6 @@
 import 'package:flash_form/flash_form.dart';
 
-class ValueChangeEvent extends FlashFieldEvent {
+class ValueChangeEvent extends FormEvent {
   final int id;
   final dynamic value;
   ValueChangeEvent({

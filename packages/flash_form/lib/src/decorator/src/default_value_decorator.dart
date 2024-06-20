@@ -16,7 +16,7 @@ class DefaultValueDecorator<TValue, TView>
   });
 
   @override
-  Widget build(Widget fieldWidget, FlashField flashField) {
+  Widget build(Widget fieldWidget, FieldSchema flashField) {
     final isListItem = flashField.isListItem;
     var widget = fieldWidget;
     if (label != null) {

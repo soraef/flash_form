@@ -7,8 +7,8 @@ enum MoveType {
   bottom,
 }
 
-class ListItemMoveEvent extends FlashFieldEvent {
-  final FlashField field;
+class ListItemMoveEvent extends FormEvent {
+  final FieldSchema field;
   final MoveType moveType;
   ListItemMoveEvent({
     required this.field,

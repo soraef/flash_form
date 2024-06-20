@@ -13,7 +13,7 @@ class LableDecorator<TValue, TView> implements FieldDecorator<TValue, TView> {
   });
 
   @override
-  Widget build(Widget fieldWidget, FlashField flashField) {
+  Widget build(Widget fieldWidget, FieldSchema flashField) {
     final isRequired =
         flashField.validators.any((element) => element is RequiredValidator);
     return Padding(

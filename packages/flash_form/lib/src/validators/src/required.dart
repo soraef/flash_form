@@ -1,5 +1,5 @@
-import 'package:flash_form/src/base/src/flash_field.dart';
-import 'package:flash_form/src/base/src/flash_field_validator.dart';
+import 'package:flash_form/src/base/src/field_schema.dart';
+import 'package:flash_form/src/base/src/field_validator.dart';
 
 class RequiredValidatorResult extends ValidatorResult {
   RequiredValidatorResult({
@@ -11,13 +11,13 @@ class RequiredValidatorResult extends ValidatorResult {
         );
 }
 
-class RequiredValidator<TValue, TView> extends Validator<TValue, TView> {
+class RequiredValidator<TValue, TView> extends FieldValidator<TValue, TView> {
   final String? message;
 
   RequiredValidator({this.message});
 
   @override
-  List<ValidatorResult> validate(FlashField<TValue, TView> field) {
+  List<ValidatorResult> validate(FieldSchema<TValue, TView> field) {
     if (field.value == null) {
       return [RequiredValidatorResult(message: message)];
     }

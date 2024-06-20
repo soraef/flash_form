@@ -7,7 +7,7 @@ class PaddingDecorator implements FieldDecorator {
   PaddingDecorator(this.padding);
 
   @override
-  Widget build(Widget fieldWidget, FlashField flashField) {
+  Widget build(Widget fieldWidget, FieldSchema flashField) {
     return Padding(
       padding: padding,
       child: fieldWidget,

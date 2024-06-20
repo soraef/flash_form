@@ -11,7 +11,7 @@ class ListItemAddDecorator implements FieldDecorator {
   });
 
   @override
-  Widget build(Widget fieldWidget, FlashField flashField) {
+  Widget build(Widget fieldWidget, FieldSchema flashField) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -21,7 +21,7 @@ class ListItemAddDecorator implements FieldDecorator {
           child: OutlinedButton(
             child: Text(addText ?? 'Add'),
             onPressed: () {
-              if (flashField is ListField) {
+              if (flashField is ListSchema) {
                 flashField.addField();
               }
             },

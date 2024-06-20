@@ -2,7 +2,7 @@ import 'package:flash_form/flash_form.dart';
 
 import 'models.dart';
 
-class RootConditionForm extends ObjectField<RootCondition> {
+class RootConditionForm extends ModelSchema<RootCondition> {
   RootConditionForm() : super(parent: null);
 
   late final conditionField = ConditionTypeField(
@@ -10,7 +10,7 @@ class RootConditionForm extends ObjectField<RootCondition> {
   );
 
   @override
-  List<FlashField> get fields => [conditionField];
+  List<FieldSchema> get fields => [conditionField];
 
   @override
   void fromModel(RootCondition model) {
@@ -24,7 +24,7 @@ class RootConditionForm extends ObjectField<RootCondition> {
 }
 
 class ConditionTypeField
-    extends TypeField<ICondition, ICondition, ConditionType> {
+    extends TypeSchema<ICondition, ICondition, ConditionType> {
   ConditionTypeField({
     required super.parent,
   }) : super(
@@ -74,12 +74,12 @@ enum ConditionType {
   contains,
 }
 
-class AndForm extends ObjectField<And> {
+class AndForm extends ModelSchema<And> {
   AndForm({
     required super.parent,
   }) : super();
 
-  late final conditionsField = ListField<dynamic, dynamic>(
+  late final conditionsField = ListSchema<dynamic, dynamic>(
     children: [],
     childFactory: (value, parent) => ConditionTypeField(
       parent: parent,
@@ -88,7 +88,7 @@ class AndForm extends ObjectField<And> {
   );
 
   @override
-  List<FlashField> get fields => [conditionsField];
+  List<FieldSchema> get fields => [conditionsField];
 
   @override
   void fromModel(And model) {
@@ -102,12 +102,12 @@ class AndForm extends ObjectField<And> {
   }
 }
 
-class OrForm extends ObjectField<Or> {
+class OrForm extends ModelSchema<Or> {
   OrForm({
     required super.parent,
   }) : super();
 
-  late final conditionsField = ListField(
+  late final conditionsField = ListSchema(
     children: [],
     parent: this,
     childFactory: (value, parent) => ConditionTypeField(
@@ -116,7 +116,7 @@ class OrForm extends ObjectField<Or> {
   );
 
   @override
-  List<FlashField> get fields => [conditionsField];
+  List<FieldSchema> get fields => [conditionsField];
 
   @override
   void fromModel(Or model) {
@@ -131,7 +131,7 @@ class OrForm extends ObjectField<Or> {
   }
 }
 
-class NotForm extends ObjectField<Not> {
+class NotForm extends ModelSchema<Not> {
   NotForm({
     required super.parent,
   }) : super();
@@ -141,7 +141,7 @@ class NotForm extends ObjectField<Not> {
   );
 
   @override
-  List<FlashField> get fields => [conditionField];
+  List<FieldSchema> get fields => [conditionField];
 
   @override
   void fromModel(Not model) {
@@ -154,30 +154,30 @@ class NotForm extends ObjectField<Not> {
   }
 }
 
-class EqualsForm extends ObjectField<Equals> {
+class EqualsForm extends ModelSchema<Equals> {
   EqualsForm({
     required super.parent,
   }) : super();
 
-  late final keyField = ValueField<PersonEqualsField, String>(
+  late final keyField = ValueSchema<PersonEqualsField, String>(
     fieldFormat: SelectFieldFormat(
       options: PersonEqualsField.values,
       toDisplay: (value) => value?.name,
     ),
     validators: [RequiredValidator()],
-    wrappers: [const DefaultValueWrapper(label: 'field')],
+    wrappers: [const DefaultValueDecorator(label: 'field')],
     parent: this,
   );
 
-  late final valueField = ValueField(
+  late final valueField = ValueSchema(
     fieldFormat: TextFieldFormat(),
     validators: [RequiredValidator()],
-    wrappers: [const DefaultValueWrapper(label: 'value')],
+    wrappers: [const DefaultValueDecorator(label: 'value')],
     parent: this,
   );
 
   @override
-  List<FlashField> get fields => [keyField, valueField];
+  List<FieldSchema> get fields => [keyField, valueField];
 
   @override
   void fromModel(Equals model) {
@@ -191,12 +191,12 @@ class EqualsForm extends ObjectField<Equals> {
   }
 }
 
-class GreaterThanForm extends ObjectField<GreaterThan> {
+class GreaterThanForm extends ModelSchema<GreaterThan> {
   GreaterThanForm({
     required super.parent,
   }) : super();
 
-  late final keyField = ValueField<PersonGreaterThanField, String>(
+  late final keyField = ValueSchema<PersonGreaterThanField, String>(
     fieldFormat: SelectFieldFormat(
       options: PersonGreaterThanField.values,
       toDisplay: (value) => value?.name,
@@ -205,14 +205,14 @@ class GreaterThanForm extends ObjectField<GreaterThan> {
     value: null,
   );
 
-  late final valueField = ValueField(
+  late final valueField = ValueSchema(
     fieldFormat: NumberFieldFormat(),
     value: null,
     parent: this,
   );
 
   @override
-  List<FlashField> get fields => [keyField, valueField];
+  List<FieldSchema> get fields => [keyField, valueField];
 
   @override
   void fromModel(GreaterThan model) {
@@ -226,12 +226,12 @@ class GreaterThanForm extends ObjectField<GreaterThan> {
   }
 }
 
-class LessThanForm extends ObjectField<LessThan> {
+class LessThanForm extends ModelSchema<LessThan> {
   LessThanForm({
     required super.parent,
   }) : super();
 
-  late final keyField = ValueField<PersonLessThanField, String>(
+  late final keyField = ValueSchema<PersonLessThanField, String>(
     fieldFormat: SelectFieldFormat(
       options: PersonLessThanField.values,
       toDisplay: (value) => value?.name,
@@ -240,14 +240,14 @@ class LessThanForm extends ObjectField<LessThan> {
     value: null,
   );
 
-  late final valueField = ValueField(
+  late final valueField = ValueSchema(
     fieldFormat: NumberFieldFormat(),
     value: null,
     parent: this,
   );
 
   @override
-  List<FlashField> get fields => [keyField, valueField];
+  List<FieldSchema> get fields => [keyField, valueField];
 
   @override
   void fromModel(LessThan model) {
@@ -261,12 +261,12 @@ class LessThanForm extends ObjectField<LessThan> {
   }
 }
 
-class ContainsForm extends ObjectField<Contains> {
+class ContainsForm extends ModelSchema<Contains> {
   ContainsForm({
     required super.parent,
   }) : super();
 
-  late final keyField = ValueField<PersonContainsField, String>(
+  late final keyField = ValueSchema<PersonContainsField, String>(
     fieldFormat: SelectFieldFormat(
       options: PersonContainsField.values,
       toDisplay: (value) => value?.name,
@@ -275,14 +275,14 @@ class ContainsForm extends ObjectField<Contains> {
     value: null,
   );
 
-  late final valueField = ValueField(
+  late final valueField = ValueSchema(
     fieldFormat: TextFieldFormat(),
     value: null,
     parent: this,
   );
 
   @override
-  List<FlashField> get fields => [keyField, valueField];
+  List<FieldSchema> get fields => [keyField, valueField];
 
   @override
   void fromModel(Contains model) {

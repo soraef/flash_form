@@ -114,7 +114,7 @@ class AutocompleteParameters<T> {
 }
 
 class FlashAutoCompleteField<T extends Object> extends StatelessWidget {
-  final ValueField field;
+  final ValueSchema field;
   final Iterable<T> Function(String text) optionsBuilder;
   final AutocompleteParameters<T>? params;
 

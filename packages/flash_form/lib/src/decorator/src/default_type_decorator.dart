@@ -16,7 +16,7 @@ class DefaultTypeDecorator<TValue, TView>
   });
 
   @override
-  Widget build(Widget fieldWidget, FlashField flashField) {
+  Widget build(Widget fieldWidget, FieldSchema flashField) {
     var widget =
         ErrorMessageDecorator<TValue, TView>().build(fieldWidget, flashField);
     if (flashField.isListItem && enbableMenu) {

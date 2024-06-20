@@ -1,15 +1,15 @@
 import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
 
-import 'flash_field.dart';
+import 'field_schema.dart';
 
-abstract class FlashLayout {
-  const FlashLayout();
+abstract class FieldLayout {
+  const FieldLayout();
 
   Widget build();
 }
 
-class CustomLayout extends FlashLayout {
+class CustomLayout extends FieldLayout {
   final Widget Function() builder;
 
   CustomLayout({
@@ -22,8 +22,8 @@ class CustomLayout extends FlashLayout {
   }
 }
 
-class RowLayout extends FlashLayout {
-  final List<FlashLayout> children;
+class RowLayout extends FieldLayout {
+  final List<FieldLayout> children;
   // final EdgeInsets itemPadding;
   final double spacing;
 
@@ -50,8 +50,8 @@ class RowLayout extends FlashLayout {
   }
 }
 
-class GroupLayout extends FlashLayout {
-  final List<FlashField> children;
+class GroupLayout extends FieldLayout {
+  final List<FieldSchema> children;
   final Widget label;
 
   GroupLayout({
