@@ -9,7 +9,7 @@ class LableDecorator<TValue, TView> implements FieldDecorator<TValue, TView> {
   LableDecorator(
     this.text, {
     this.description,
-    this.padding = const EdgeInsets.only(top: 16.0),
+    this.padding = const EdgeInsets.only(top: 0.0),
   });
 
   @override

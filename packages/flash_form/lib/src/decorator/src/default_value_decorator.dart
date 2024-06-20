@@ -11,7 +11,7 @@ class DefaultValueDecorator<TValue, TView>
   const DefaultValueDecorator({
     this.label,
     this.description,
-    this.padding = const EdgeInsets.only(bottom: 0.0),
+    this.padding = const EdgeInsets.symmetric(vertical: 8.0),
     this.enbableMenu = true,
   });
 
