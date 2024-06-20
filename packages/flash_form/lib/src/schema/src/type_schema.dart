@@ -23,7 +23,7 @@ class TypeSchema<TValue, TView, TOption> extends FieldSchema<TValue, TView> {
   TypeSchemaEventHandler<TValue, TView, TOption>? handleEvent;
 
   TypeSchema({
-    super.wrappers = const [DefaultTypeDecorator()],
+    super.decorators = const [DefaultTypeDecorator()],
     super.fieldFormat = const TypeFieldFormat(),
     required this.typeOptions,
     required this.typeFactory,

@@ -44,22 +44,22 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            FlashObjectField(form: form),
+            FlashModelField(form: form),
             Padding(
               padding: const EdgeInsets.all(32.0),
               child: ElevatedButton(
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return Dialog(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: FlashPreviewWidget(form: form),
-                        ),
-                      );
-                    },
-                  );
+                  // showDialog(
+                  //   context: context,
+                  //   builder: (context) {
+                  //     return Dialog(
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.all(16.0),
+                  //         child: FlashPreviewWidget(form: form),
+                  //       ),
+                  //     );
+                  //   },
+                  // );
                 },
                 child: const Text('Submit'),
               ),

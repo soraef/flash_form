@@ -10,12 +10,4 @@ class ListFieldFormat extends FieldFormat {
   Widget createFieldWidget(FieldSchema field) {
     return FlashListField(field: field as ListSchema);
   }
-
-  @override
-  Widget createPreviewWidget(FieldSchema field) {
-    return ListPreviewWidget(
-      key: ObjectKey(field),
-      field: field as ListSchema,
-    );
-  }
 }

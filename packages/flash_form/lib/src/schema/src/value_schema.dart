@@ -9,7 +9,7 @@ class ValueSchema<TValue, TView> extends FieldSchema<TValue, TView> {
     required ValueFieldFormat<TValue, TView> super.fieldFormat,
     required super.parent,
     this.value,
-    super.wrappers = const [DefaultValueDecorator()],
+    super.decorators = const [DefaultValueDecorator()],
     super.validators,
     this.handleEvent,
   });

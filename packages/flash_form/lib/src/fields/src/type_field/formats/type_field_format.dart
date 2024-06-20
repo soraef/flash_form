@@ -1,7 +1,6 @@
 import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
 
-
 class TypeFieldFormat<TValue, TView, TOption> extends FieldFormat {
   const TypeFieldFormat();
 
@@ -10,13 +9,6 @@ class TypeFieldFormat<TValue, TView, TOption> extends FieldFormat {
     return FlashTypeField<TValue, TView, TOption>(
       key: ObjectKey(field),
       field: field as TypeSchema<TValue, TView, TOption>,
-    );
-  }
-
-  @override
-  Widget createPreviewWidget(FieldSchema field) {
-    return TypePreviewWidget(
-      field: field as TypeSchema,
     );
   }
 }

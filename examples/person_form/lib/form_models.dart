@@ -2,48 +2,89 @@ import 'package:person_form/models.dart';
 import 'package:flash_form/flash_form.dart';
 
 class PersonForm extends ModelSchema<Person> {
-  PersonForm() : super(label: 'Person Form');
+  PersonForm()
+      : super(
+          parent: null,
+        );
 
-  final nameField = ValueSchema<String, String>(
-    label: 'Name',
+  late final nameField = ValueSchema<String, String>(
     fieldFormat: TextFieldFormat(),
+    decorators: [
+      const DefaultValueDecorator(label: 'Name'),
+    ],
     value: null,
+    parent: this,
   );
 
-  final ageField = ValueSchema<int, String>(
-    label: 'Age',
+  late final ageField = ValueSchema<num, String>(
     fieldFormat: NumberFieldFormat(),
+    decorators: [
+      const DefaultValueDecorator(label: 'Age'),
+    ],
     value: 20,
+    parent: this,
   );
 
-  final hobbyField = ListSchema<String, String>(
-    label: 'Hobby',
+  late final hobbyField = ListSchema<String, String>(
     children: [],
-    childFactory: (value) {
+    decorators: [
+      const DefaultListDecorator(label: 'Hobbies'),
+    ],
+    childFactory: (value, parent) {
       return ValueSchema<String, String>(
-        label: 'Hobby',
         fieldFormat: TextFieldFormat(),
         value: value,
+        parent: parent,
       );
     },
+    parent: this,
   );
 
-  final childrenField = ListSchema<Child, Child>(
-    label: 'Children',
+  late final childrenField = ListSchema<Child, Child>(
     children: [],
-    childFactory: (value) {
-      return ChildForm();
+    decorators: [
+      const DefaultListDecorator(label: 'Children'),
+    ],
+    childFactory: (value, parent) {
+      return ChildForm(
+        parent: parent,
+      );
     },
+    parent: this,
   );
 
-  final roleField = TypeSchema<Role, Role, Type>(
-    label: 'Role',
-    fields: {
-      Student: () => StudentForm(),
-      Employee: () => EmployeeForm(),
-    },
-    fieldType: null,
+  late final roleField = TypeSchema<Role, Role, Type>(
     typeFactory: (Role value) => value.runtimeType,
+    typeOptions: [
+      Student,
+      Employee,
+    ],
+    decorators: [
+      const DefaultTypeDecorator(label: 'Role'),
+    ],
+    factory: (Type? value, TypeSchema<dynamic, dynamic, dynamic> parent) {
+      if (value == Student) {
+        return StudentForm(
+          parent: parent,
+        );
+      } else if (value == Employee) {
+        return EmployeeForm(
+          parent: parent,
+        );
+      } else {
+        throw Exception('Invalid type');
+      }
+    },
+    type: null,
+    parent: this,
+    toDisplay: (Type value) {
+      if (value == Student) {
+        return 'Student';
+      } else if (value == Employee) {
+        return 'Employee';
+      }
+      return '';
+    },
   );
 
   @override
@@ -68,7 +109,7 @@ class PersonForm extends ModelSchema<Person> {
   Person toModel() {
     return Person(
       name: nameField.value ?? 'No Name',
-      age: ageField.value ?? 0,
+      age: ageField.value?.toInt() ?? 0,
       hobby: hobbyField.value ?? [],
       children: childrenField.value ?? [],
       role: roleField.value!,
@@ -77,22 +118,27 @@ class PersonForm extends ModelSchema<Person> {
 }
 
 class ChildForm extends ModelSchema<Child> {
-  ChildForm()
+  ChildForm({super.parent})
       : super(
-          label: 'Child Form',
           fieldFormat: const ModelFieldFormat(),
         );
 
-  final nameField = ValueSchema<String, String>(
-    label: 'Name',
+  late final nameField = ValueSchema<String, String>(
     fieldFormat: TextFieldFormat(),
+    decorators: [
+      const DefaultValueDecorator(label: 'Name'),
+    ],
     value: '',
+    parent: this,
   );
 
-  final ageField = ValueSchema<int, String>(
-    label: 'Age',
+  late final ageField = ValueSchema<num, String>(
     fieldFormat: NumberFieldFormat(),
+    decorators: [
+      const DefaultValueDecorator(label: 'Age'),
+    ],
     value: 12,
+    parent: this,
   );
 
   @override
@@ -108,22 +154,25 @@ class ChildForm extends ModelSchema<Child> {
   Child toModel() {
     return Child(
       name: nameField.value ?? 'No Name',
-      age: ageField.value ?? 0,
+      age: ageField.value?.toInt() ?? 0,
     );
   }
 }
 
 class StudentForm extends ModelSchema<Student> {
-  StudentForm()
-      : super(
-          label: 'Student Form',
+  StudentForm({
+    super.parent,
+  }) : super(
           fieldFormat: const ModelFieldFormat(),
         );
 
-  final schoolField = ValueSchema<String, String>(
-    label: 'School',
+  late final schoolField = ValueSchema<String, String>(
     fieldFormat: TextFieldFormat(),
+    decorators: [
+      const DefaultValueDecorator(label: 'School'),
+    ],
     value: null,
+    parent: this,
   );
 
   @override
@@ -143,15 +192,18 @@ class StudentForm extends ModelSchema<Student> {
 }
 
 class EmployeeForm extends ModelSchema<Employee> {
-  EmployeeForm()
-      : super(
-          label: 'Employee Form',
+  EmployeeForm({
+    super.parent,
+  }) : super(
           fieldFormat: const ModelFieldFormat(),
         );
 
-  final companyField = ValueSchema<String, String>(
-    label: 'Company',
+  late final companyField = ValueSchema<String, String>(
+    parent: this,
     fieldFormat: TextFieldFormat(),
+    decorators: [
+      const DefaultValueDecorator(label: 'Company'),
+    ],
     value: null,
   );
 

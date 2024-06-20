@@ -10,9 +10,4 @@ class ModelFieldFormat extends FieldFormat {
       form: field as ModelSchema,
     );
   }
-
-  @override
-  Widget createPreviewWidget(FieldSchema field) {
-    return FlashPreviewWidget(form: field as ModelSchema);
-  }
 }

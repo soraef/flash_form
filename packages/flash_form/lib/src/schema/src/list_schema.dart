@@ -9,7 +9,7 @@ class ListSchema<TValue, TView> extends FieldSchema<List<TValue>, List<TView>> {
   void Function(FormEvent event, ListSchema<TValue, TView>)? handleEvent;
 
   ListSchema({
-    super.wrappers = const [DefaultListDecorator()],
+    super.decorators = const [DefaultListDecorator()],
     required super.parent,
     super.fieldFormat = const ListFieldFormat(),
     required this.children,

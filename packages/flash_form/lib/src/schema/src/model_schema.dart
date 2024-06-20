@@ -2,7 +2,7 @@ import 'package:flash_form/flash_form.dart';
 
 abstract class ModelSchema<T> extends FieldSchema<T, T> {
   ModelSchema({
-    super.wrappers = const [DefaultObjectDecorator()],
+    super.decorators = const [DefaultObjectDecorator()],
     required super.parent,
     super.fieldFormat = const ModelFieldFormat(),
   }) : super();

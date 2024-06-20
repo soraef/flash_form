@@ -19,7 +19,7 @@ abstract class FieldSchema<TValue, TView>
   final FieldFormat fieldFormat;
   final FieldSchema? parent;
   late final FormContext context;
-  List<FieldDecorator>? wrappers;
+  List<FieldDecorator>? decorators;
   List<FieldValidator> validators;
   List<ValidatorResult> validatorResults = [];
 
@@ -29,7 +29,7 @@ abstract class FieldSchema<TValue, TView>
     required this.fieldFormat,
     required this.parent,
     this.validators = const [],
-    this.wrappers,
+    this.decorators,
   }) {
     context = parent?.context ?? FormContext();
     id = context.generateId();
@@ -53,8 +53,9 @@ abstract class FieldSchema<TValue, TView>
       field: this,
       builder: (context) {
         var field = fieldFormat.createFieldWidget(this);
-        for (var wrapper in wrappers ?? <FieldDecorator<dynamic, dynamic>>[]) {
-          field = wrapper.build(field, this);
+        for (var decorator
+            in decorators?.reversed ?? <FieldDecorator<dynamic, dynamic>>[]) {
+          field = decorator.build(field, this);
         }
         return field;
       },
