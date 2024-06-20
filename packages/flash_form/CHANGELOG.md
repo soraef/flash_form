@@ -26,3 +26,6 @@ Refactor: Rename some classes for clarity
 
 ## 0.0.7
 Update: Change default decorator padding
+
+## 0.0.8
+feat: Refactor FieldSchema registration and retrieval logic
