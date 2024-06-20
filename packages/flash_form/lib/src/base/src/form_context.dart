@@ -12,20 +12,13 @@ class FormContext {
   final Map<int, List<int>> _idMap = {};
 
   // 自身のFieldSchemaのタイプを管理するためのマップ
-  final Map<int, SchemaType> _fieldMap = {};
+  final Map<int, FieldSchema> _schemaMap = {};
 
   Stream<FormEvent> get eventStream => _eventController.stream;
 
   var maxId = 0;
 
   int generateId() {
-    // final ids = _idMap.keys;
-    // for (var id in ids) {
-    //   if (id > maxId) {
-    //     maxId = id;
-    //   }
-    // }
-
     final newId = (maxId + 1);
     maxId = newId;
     return newId;
@@ -34,10 +27,10 @@ class FormContext {
   void registerId({
     required int id,
     required int? parentId,
-    required SchemaType type,
+    required FieldSchema schema,
   }) {
     _idMap[id] = [];
-    _fieldMap[id] = type;
+    _schemaMap[id] = schema;
 
     /// 親のキーを取得
     if (parentId != null) {
@@ -72,8 +65,8 @@ class FormContext {
 
   bool isListItem(int id) {
     final parentId = getParentId(id);
-    final parentFieldType = parentId != null ? _fieldMap[parentId] : null;
-    return parentFieldType == SchemaType.list;
+    final parentSchema = parentId != null ? _schemaMap[parentId] : null;
+    return parentSchema?.fieldType == SchemaType.list;
   }
 
   void removeId(int id) {
@@ -98,7 +91,7 @@ class FormContext {
     }
 
     _idMap.remove(id);
-    _fieldMap.remove(id);
+    _schemaMap.remove(id);
   }
 
   void sendEvent(FormEvent event) {
@@ -136,10 +129,20 @@ class FormContext {
       return 0;
     }
 
-    if (_fieldMap[parentId] == type) {
+    if (_schemaMap[parentId] == type) {
       return countTypeOf(parentId, type) + 1;
     }
 
     return countTypeOf(parentId, type);
+  }
+
+  FieldSchema<TValue, TView>? getSchemaById<TValue, TView>(int id) {
+    final schema = _schemaMap[id];
+
+    if (schema is FieldSchema<TValue, TView>) {
+      return schema;
+    }
+
+    return null;
   }
 }

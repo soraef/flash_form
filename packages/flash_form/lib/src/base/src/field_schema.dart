@@ -33,7 +33,11 @@ abstract class FieldSchema<TValue, TView>
   }) {
     context = parent?.context ?? FormContext();
     id = context.generateId();
-    context.registerId(id: id, parentId: parent?.id, type: fieldType);
+    context.registerId(
+      id: id,
+      parentId: parent?.id,
+      schema: this,
+    );
     _eventSubscription = context.eventStream.listen((event) {
       onEvent(event);
     });
@@ -78,6 +82,10 @@ abstract class FieldSchema<TValue, TView>
 
   void sendEvent(FormEvent event) {
     context.sendEvent(event);
+  }
+
+  FieldSchema<T, S>? getSchemaById<T, S>(int id) {
+    return context.getSchemaById<T, S>(id);
   }
 
   @override
