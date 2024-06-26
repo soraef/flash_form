@@ -125,6 +125,7 @@ class PersonForm extends ModelSchema<Person> {
     return Person(
       name: nameField.value ?? 'No Name',
       age: ageField.value?.toInt() ?? 0,
+      skills: skills.value ?? [],
       hobby: hobbyField.value ?? [],
       children: childrenField.value ?? [],
       role: roleField.value!,
