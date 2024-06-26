@@ -9,10 +9,10 @@ class ListSchema<TValue, TView> extends FieldSchema<List<TValue>, List<TView>> {
   void Function(FormEvent event, ListSchema<TValue, TView>)? handleEvent;
 
   ListSchema({
-    super.decorators = const [DefaultListDecorator()],
     required super.parent,
+    super.decorators = const [DefaultListDecorator()],
     super.fieldFormat = const ListFieldFormat(),
-    required this.children,
+    this.children = const [],
     this.childFactory,
     this.validator,
   }) : super();
@@ -22,8 +22,7 @@ class ListSchema<TValue, TView> extends FieldSchema<List<TValue>, List<TView>> {
     children.clear();
     children.addAll(
       newValue?.map(
-            (value) => childFactory!(value, this)..updateValue(value),
-          ) ??
+              (value) => childFactory!(value, this)..updateValue(value)) ??
           List.empty(),
     );
     notifyListeners();
@@ -145,4 +144,8 @@ class ListSchema<TValue, TView> extends FieldSchema<List<TValue>, List<TView>> {
 
   @override
   SchemaType get fieldType => SchemaType.list;
+
+  @override
+  bool get hasFocusRecursive =>
+      children.any((child) => child.hasFocusRecursive);
 }

@@ -25,6 +25,18 @@ class PersonForm extends ModelSchema<Person> {
     parent: this,
   );
 
+  // multi seelect field format
+  late final skills = ValueSchema<List<String>, List<String>>(
+    fieldFormat: MultiSelectFieldFormat.checkbox(
+      options: ['Dart', 'Flutter', 'Java', 'Kotlin'],
+      toDisplay: (value) => value,
+    ),
+    decorators: [
+      const DefaultValueDecorator(label: 'Skills'),
+    ],
+    parent: this,
+  );
+
   late final hobbyField = ListSchema<String, String>(
     children: [],
     decorators: [
@@ -72,7 +84,9 @@ class PersonForm extends ModelSchema<Person> {
           parent: parent,
         );
       } else {
-        throw Exception('Invalid type');
+        return StudentForm(
+          parent: parent,
+        );
       }
     },
     type: null,
@@ -92,6 +106,7 @@ class PersonForm extends ModelSchema<Person> {
         nameField,
         ageField,
         hobbyField,
+        skills,
         childrenField,
         roleField,
       ];

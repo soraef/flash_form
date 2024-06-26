@@ -28,11 +28,13 @@ class TypeSchema<TValue, TView, TOption> extends FieldSchema<TValue, TView> {
     required this.typeOptions,
     required this.typeFactory,
     required this.factory,
-    required this.type,
     required super.parent,
     required this.toDisplay,
     this.handleEvent,
-  }) : super();
+    this.type,
+  }) : super() {
+    updateType(type);
+  }
 
   @override
   TValue? get value => selectedField?.value;
@@ -101,4 +103,7 @@ class TypeSchema<TValue, TView, TOption> extends FieldSchema<TValue, TView> {
 
   @override
   int get hashCode => type.hashCode ^ id.hashCode;
+
+  @override
+  bool get hasFocusRecursive => selectedField?.hasFocusRecursive ?? hasFocus;
 }

@@ -25,7 +25,14 @@ class _FlashTextFieldState extends State<FlashTextField> {
   void initState() {
     super.initState();
 
-    _controller = TextEditingController(text: widget.field.viewValue);
+    final paramController = widget.textFieldParams?.controller;
+    if (paramController != null) {
+      _controller = paramController;
+      _controller.text = widget.field.viewValue ?? '';
+    } else {
+      _controller = TextEditingController(text: widget.field.viewValue);
+    }
+
     _controller.addListener(_onTextChanged);
     widget.field.addListener(_onFieldChanged);
   }
@@ -65,7 +72,7 @@ class _FlashTextFieldState extends State<FlashTextField> {
     return TextField(
       key: widget.key,
       controller: _controller,
-      focusNode: params.focusNode,
+      focusNode: widget.field.focusNode,
       undoController: params.undoController,
       decoration: params.decoration,
       keyboardType: params.keyboardType,
@@ -134,7 +141,6 @@ class _FlashTextFieldState extends State<FlashTextField> {
 class TextFieldParameters {
   final Key? key;
   final TextEditingController? controller;
-  final FocusNode? focusNode;
   final UndoHistoryController? undoController;
   final InputDecoration? decoration;
   final TextInputType? keyboardType;
@@ -206,7 +212,6 @@ class TextFieldParameters {
   TextFieldParameters({
     this.key,
     this.controller,
-    this.focusNode,
     this.undoController,
     this.decoration = const InputDecoration(),
     this.keyboardType,
