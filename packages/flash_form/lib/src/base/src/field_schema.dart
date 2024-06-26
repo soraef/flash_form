@@ -22,6 +22,7 @@ abstract class FieldSchema<TValue, TView>
   List<FieldDecorator>? decorators;
   List<FieldValidator> validators;
   List<ValidatorResult> validatorResults = [];
+  final FocusNode focusNode = FocusNode();
 
   StreamSubscription<FormEvent>? _eventSubscription;
 
@@ -40,6 +41,13 @@ abstract class FieldSchema<TValue, TView>
     );
     _eventSubscription = context.eventStream.listen((event) {
       onEvent(event);
+    });
+    focusNode.addListener(() {
+      if (focusNode.hasFocus) {
+        sendEvent(FocusInEvent(id: id));
+      } else {
+        sendEvent(FocusOutEvent(id: id));
+      }
     });
   }
 
@@ -88,10 +96,23 @@ abstract class FieldSchema<TValue, TView>
     return context.getSchemaById<T, S>(id);
   }
 
+  void forcus() {
+    focusNode.requestFocus();
+  }
+
+  void unfocus() {
+    focusNode.unfocus();
+  }
+
+  bool get hasFocus => focusNode.hasFocus;
+
+  bool get hasFocusRecursive;
+
   @override
   void dispose() {
     _eventSubscription?.cancel();
     context.removeId(id);
+    focusNode.dispose();
     super.dispose();
   }
 }

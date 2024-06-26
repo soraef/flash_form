@@ -38,4 +38,19 @@ abstract class ModelSchema<T> extends FieldSchema<T, T> {
 
   @override
   SchemaType get fieldType => SchemaType.model;
+
+  @override
+  bool get hasFocusRecursive {
+    if (hasFocus) {
+      return true;
+    }
+
+    for (var field in fields) {
+      if (field.hasFocusRecursive) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }

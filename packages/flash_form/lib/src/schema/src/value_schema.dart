@@ -34,4 +34,7 @@ class ValueSchema<TValue, TView> extends FieldSchema<TValue, TView> {
 
   @override
   SchemaType get fieldType => SchemaType.value;
+
+  @override
+  bool get hasFocusRecursive => hasFocus;
 }
