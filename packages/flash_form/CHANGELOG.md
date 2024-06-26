@@ -29,3 +29,7 @@ Update: Change default decorator padding
 
 ## 0.0.8
 feat: Refactor FieldSchema registration and retrieval logic
+
+## 0.0.9
+feat: Add MultiSelectFieldFormat and FlashCheckboxGroupField to FlashForm package
+feat: Add focus events to FieldSchema and update related classes
