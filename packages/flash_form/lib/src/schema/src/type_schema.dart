@@ -1,6 +1,6 @@
 import 'package:flash_form/flash_form.dart';
 
-typedef SchemaFactory<TValue, TView, TOption> = FieldSchema<TValue, TView>
+typedef SchemaFactory<TValue, TView, TOption> = FieldSchema<TValue, TView>?
     Function(
   TOption? value,
   TypeSchema parent,
