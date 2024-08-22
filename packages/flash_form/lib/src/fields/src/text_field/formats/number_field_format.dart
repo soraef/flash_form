@@ -8,7 +8,7 @@ class NumberFieldFormat extends ValueFieldFormat<num, String> {
   });
 
   @override
-  int? fromView(String? value) => int.tryParse(value ?? '');
+  num? fromView(String? value) => num.tryParse(value ?? '');
 
   @override
   String? toView(num? value) => value?.toString();
