@@ -5,10 +5,12 @@ class DefaultListDecorator implements FieldDecorator {
   final EdgeInsetsGeometry padding;
   final String? label;
   final String? description;
+  final String? addText;
 
   const DefaultListDecorator({
     this.label,
     this.description,
+    this.addText,
     this.padding = const EdgeInsets.symmetric(vertical: 8.0),
   });
 
@@ -22,7 +24,9 @@ class DefaultListDecorator implements FieldDecorator {
       ).build(widget, flashField);
     }
     widget = PaddingDecorator(padding).build(widget, flashField);
-    widget = const ListItemAddDecorator().build(widget, flashField);
+    widget = ListItemAddDecorator(
+      addText: addText,
+    ).build(widget, flashField);
     return widget;
   }
 }
