@@ -1,32 +1,36 @@
 import 'package:person_form/models.dart';
 import 'package:flash_form/flash_form.dart';
 
-class PersonForm extends ModelSchema<Person> {
-  PersonForm()
-      : super(
-          parent: null,
-        );
+class PersonSchema extends ModelSchema<Person> {
+  PersonSchema() : super(parent: null);
 
-  late final nameField = ValueSchema<String, String>(
+  late final nameField = ValueSchema(
     fieldFormat: TextFieldFormat(),
     decorators: [
       const DefaultValueDecorator(label: 'Name'),
+    ],
+    validators: [
+      RequiredValidator(),
     ],
     value: null,
     parent: this,
   );
 
-  late final ageField = ValueSchema<num, String>(
+  late final ageField = ValueSchema(
     fieldFormat: NumberFieldFormat(),
     decorators: [
       const DefaultValueDecorator(label: 'Age'),
+    ],
+    validators: [
+      RequiredValidator(),
+      RangeValidator(min: 0, max: 120),
     ],
     value: 20,
     parent: this,
   );
 
   // multi seelect field format
-  late final skills = ValueSchema<List<String>, List<String>>(
+  late final skills = ValueSchema(
     fieldFormat: MultiSelectFieldFormat.checkbox(
       options: ['Dart', 'Flutter', 'Java', 'Kotlin'],
       toDisplay: (value) => value,

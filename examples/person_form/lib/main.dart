@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final form = PersonForm();
+  final form = PersonSchema();
 
   @override
   Widget build(BuildContext context) {
@@ -48,18 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.all(32.0),
               child: ElevatedButton(
-                onPressed: () {
-                  // showDialog(
-                  //   context: context,
-                  //   builder: (context) {
-                  //     return Dialog(
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.all(16.0),
-                  //         child: FlashPreviewWidget(form: form),
-                  //       ),
-                  //     );
-                  //   },
-                  // );
+                onPressed: () async {
+                  if (await form.validate()) {
+                    print(form.toModel());
+                  }
                 },
                 child: const Text('Submit'),
               ),
