@@ -1,14 +1,10 @@
 ## 0.0.1
-
 * Experimental release
 
-
 ## 0.0.2
-
 * Update TypeSchema class to use field factories
 
 ## 0.0.3
-
 * Added `FlashLayout` and `FieldWidgets` to the `FlashForm` package.
 * Introduced the `FlashDropdownField` widget for dropdown input in `FlashForm`.
 * Updated the `FieldSchema` class to implement `FlashLayout`.
@@ -16,20 +12,26 @@
 * Updated field format classes and added flash field validator.
 
 ## 0.0.4
-* feat: Add FlashAutocompleteField widget for autocomplete input in FlashForm
+* Feat: Add FlashAutocompleteField widget for autocomplete input in FlashForm
 
 ## 0.0.5
-feat: Add ListItemAddEvent and widget for adding list items
+* Feat: Add ListItemAddEvent and widget for adding list items
 
 ## 0.0.6
-Refactor: Rename some classes for clarity
+* Refactor: Rename some classes for clarity
 
 ## 0.0.7
-Update: Change default decorator padding
+* Update: Change default decorator padding
 
 ## 0.0.8
-feat: Refactor FieldSchema registration and retrieval logic
+* Feat: Refactor FieldSchema registration and retrieval logic
 
 ## 0.0.9
-feat: Add MultiSelectFieldFormat and FlashCheckboxGroupField to FlashForm package
-feat: Add focus events to FieldSchema and update related classes
+* Feat: Add MultiSelectFieldFormat and FlashCheckboxGroupField to FlashForm package
+* Feat: Add focus events to FieldSchema and update related classes
+
+## 0.0.10
+* fix: Update type_schema.dart typedef to accept nullable FieldSchema
+* feat: Add ColorPickField to FlashForm package
+* feat: Add IntFieldFormat to FlashForm package
+* fix: Update NumberFieldFormat to use num instead of int
