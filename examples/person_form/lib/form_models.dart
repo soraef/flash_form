@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:person_form/models.dart';
 import 'package:flash_form/flash_form.dart';
 
@@ -95,7 +96,7 @@ class PersonSchema extends ModelSchema<Person> {
     },
     type: null,
     parent: this,
-    toDisplay: (Type value) {
+    toDisplay: (BuildContext context, Type value) {
       if (value == Student) {
         return 'Student';
       } else if (value == Employee) {

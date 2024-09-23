@@ -28,7 +28,7 @@ class ConditionTypeField
   ConditionTypeField({
     required super.parent,
   }) : super(
-          toDisplay: (value) => value.name,
+          toDisplay: (context, value) => value.name,
           typeOptions: [
             ConditionType.and,
             ConditionType.or,

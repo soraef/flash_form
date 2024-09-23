@@ -1,4 +1,5 @@
 import 'package:flash_form/flash_form.dart';
+import 'package:flutter/material.dart';
 
 typedef SchemaFactory<TValue, TView, TOption> = FieldSchema<TValue, TView>?
     Function(
@@ -17,7 +18,7 @@ class TypeSchema<TValue, TView, TOption> extends FieldSchema<TValue, TView> {
   final SchemaFactory<TValue, TView, TOption> factory;
   final TypeFactory<TValue, TOption> typeFactory;
   final List<TOption> typeOptions;
-  final String Function(TOption value) toDisplay;
+  final String Function(BuildContext context, TOption value) toDisplay;
   TOption? type;
   FieldSchema<TValue, TView>? selectedField;
   TypeSchemaEventHandler<TValue, TView, TOption>? handleEvent;
@@ -90,7 +91,8 @@ class TypeSchema<TValue, TView, TOption> extends FieldSchema<TValue, TView> {
   @override
   SchemaType get fieldType => SchemaType.type;
 
-  String displayOption(TOption value) => toDisplay(value);
+  String displayOption(BuildContext context, TOption value) =>
+      toDisplay(context, value);
 
   /// typeによって等値性を判定して、==演算子をオーバーライドする
   @override

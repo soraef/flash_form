@@ -20,7 +20,7 @@ class FlashTypeField<TView, TValue, TOption> extends StatelessWidget {
                   .map(
                     (key) => DropdownMenuItem(
                       value: key,
-                      child: Text(field.displayOption(key)),
+                      child: Text(field.displayOption(context, key)),
                     ),
                   )
                   .toList(),
