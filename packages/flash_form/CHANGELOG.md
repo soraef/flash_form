@@ -43,3 +43,6 @@
 
 ## 0.0.12
 * fix: ListSchema class and add initial list of children fields
+
+## 0.0.13
+* fix: Update README.md
