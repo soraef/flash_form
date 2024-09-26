@@ -1,9 +1,5 @@
 # Flash Form Flutter Package
 
-<div style="text-align: center;">
-  <img src="https://raw.githubusercontent.com/soraef/flash_form/refs/heads/main/docs/image/logo.webp" alt="FlashForm　Logo" style="width: 300px;">
-</div>
-
 FlashForm is a Flutter package that simplifies form creation by automatically generating form fields from your data model's structure. This eliminates the need to manually create widgets for each field, allowing you to build forms quickly and efficiently.
 
 ## Features
