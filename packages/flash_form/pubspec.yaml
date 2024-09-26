@@ -1,7 +1,7 @@
 name: flash_form
 description: "FlashForm is a Flutter package that simplifies form creation by automatically generating form fields from your data model's structure. This eliminates the need to manually create widgets for each field, allowing you to build forms quickly and efficiently."
-version: 0.0.11
-repository: https://github.com/soraef/flash_form
+version: 0.0.12
+repository: https://github.com/soraef/flash_form/tree/main/packages/flash_form
 
 environment:
   sdk: ">=3.3.4 <4.0.0"
