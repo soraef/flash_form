@@ -35,3 +35,7 @@
 * feat: Add ColorPickField to FlashForm package
 * feat: Add IntFieldFormat to FlashForm package
 * fix: Update NumberFieldFormat to use num instead of int
+
+## 0.0.11
+* feat: Update displayOption method in TypeSchema to accept a BuildContext parameter
+* feat: Update createFieldWidget method in FieldFormat to accept a BuildContext parameter
