@@ -49,9 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(32.0),
               child: ElevatedButton(
                 onPressed: () async {
-                  if (await form.validate()) {
-                    print(form.toModel());
-                  }
+                  if (await form.validate()) {}
                 },
                 child: const Text('Submit'),
               ),

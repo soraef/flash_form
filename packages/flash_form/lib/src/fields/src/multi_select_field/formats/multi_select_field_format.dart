@@ -1,6 +1,5 @@
 import 'package:flash_form/flash_form.dart';
-import 'package:flash_form/src/fields/field_widgets.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 
 class MultiSelectFieldFormat<T>
     extends ValueFieldFormat<List<T>, List<String>> {

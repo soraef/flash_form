@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:math';
-
 import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +19,6 @@ class FlashColorPickField extends StatelessWidget {
     return GenericOverlayWidget<Color>(
       onClose: (value) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          print('update value');
           field.updateValue(value);
         });
       },
@@ -67,14 +63,15 @@ class GenericOverlayWidget<T> extends StatefulWidget {
   final void Function(T? value)? onClose;
 
   const GenericOverlayWidget({
-    Key? key,
+    super.key,
     required this.child,
     required this.overlayBuilder,
     this.onOpen,
     this.onClose,
-  }) : super(key: key);
+  });
 
   @override
+  // ignore: library_private_types_in_public_api
   _GenericOverlayWidgetState<T> createState() =>
       _GenericOverlayWidgetState<T>();
 }
@@ -121,7 +118,6 @@ class _GenericOverlayWidgetState<T> extends State<GenericOverlayWidget<T>> {
   }
 
   void _hideOverlay(T? value) {
-    print('hide overlay');
     _overlayEntry?.remove();
     _overlayEntry = null;
     widget.onClose?.call(value);
@@ -151,13 +147,12 @@ class _ColorPickerOverlayWidget extends StatefulWidget {
   final int colorSize;
 
   const _ColorPickerOverlayWidget({
-    Key? key,
     required this.colorOptions,
     required this.selectedColor,
     required this.onCancel,
     required this.onConfirm,
     required this.colorSize,
-  }) : super(key: key);
+  });
 
   @override
   State<_ColorPickerOverlayWidget> createState() =>
@@ -169,7 +164,6 @@ class _ColorPickerOverlayWidgetState extends State<_ColorPickerOverlayWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _selectedColor = widget.selectedColor;
   }
@@ -243,23 +237,6 @@ class _ColorPickerOverlayWidgetState extends State<_ColorPickerOverlayWidget> {
               : null,
         ),
       ),
-    );
-  }
-
-  Widget _buildActionButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        TextButton(
-          onPressed: widget.onCancel,
-          child: const Text('Cancel'),
-        ),
-        TextButton(
-          onPressed:
-              _selectedColor != null ? widget.onConfirm(_selectedColor) : null,
-          child: const Text('Select'),
-        ),
-      ],
     );
   }
 
