@@ -5,7 +5,7 @@ class ModelFieldFormat extends FieldFormat {
   const ModelFieldFormat();
 
   @override
-  Widget createFieldWidget(FieldSchema field) {
+  Widget createFieldWidget(BuildContext context, FieldSchema field) {
     return FlashModelField(
       form: field as ModelSchema,
     );

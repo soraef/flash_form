@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class IntFieldFormat extends ValueFieldFormat<int, String> {
-  final TextFieldParameters? textFieldParams;
+  final TextFieldParameters Function(BuildContext context)?
+      textFieldParamsFactory;
   IntFieldFormat({
-    this.textFieldParams,
+    this.textFieldParamsFactory,
   });
 
   static final TextFieldParameters defaultTextFieldParams = TextFieldParameters(
@@ -14,13 +15,15 @@ class IntFieldFormat extends ValueFieldFormat<int, String> {
   );
 
   @override
-  int? fromView(String? value) => int.tryParse(value ?? '');
+  int? fromView(BuildContext context, String? value) =>
+      int.tryParse(value ?? '');
 
   @override
-  String? toView(int? value) => value?.toString();
+  String? toView(BuildContext context, int? value) => value?.toString();
 
   @override
-  Widget createFieldWidget(FieldSchema field) {
+  Widget createFieldWidget(BuildContext context, FieldSchema field) {
+    final textFieldParams = textFieldParamsFactory?.call(context);
     return FlashTextField(
       key: ObjectKey(field),
       field: field as ValueSchema,

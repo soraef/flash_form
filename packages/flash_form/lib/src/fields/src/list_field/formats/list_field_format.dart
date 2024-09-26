@@ -7,7 +7,7 @@ class ListFieldFormat extends FieldFormat {
   const ListFieldFormat();
 
   @override
-  Widget createFieldWidget(FieldSchema field) {
+  Widget createFieldWidget(BuildContext context, FieldSchema field) {
     return FlashListField(field: field as ListSchema);
   }
 }

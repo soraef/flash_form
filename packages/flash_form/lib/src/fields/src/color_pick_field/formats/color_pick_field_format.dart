@@ -13,7 +13,7 @@ class ColorPickFieldFormat extends ValueFieldFormat<Color, Color> {
   });
 
   @override
-  Widget createFieldWidget(FieldSchema field) {
+  Widget createFieldWidget(BuildContext context, FieldSchema field) {
     return FlashColorPickField(
       key: ObjectKey(field),
       field: field as ValueSchema,
@@ -21,12 +21,12 @@ class ColorPickFieldFormat extends ValueFieldFormat<Color, Color> {
   }
 
   @override
-  Color? fromView(Color? value) {
+  Color? fromView(BuildContext context, Color? value) {
     return value;
   }
 
   @override
-  Color? toView(Color? value) {
+  Color? toView(BuildContext context, Color? value) {
     return value;
   }
 }

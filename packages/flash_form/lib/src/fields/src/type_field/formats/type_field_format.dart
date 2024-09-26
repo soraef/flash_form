@@ -5,7 +5,7 @@ class TypeFieldFormat<TValue, TView, TOption> extends FieldFormat {
   const TypeFieldFormat();
 
   @override
-  Widget createFieldWidget(FieldSchema field) {
+  Widget createFieldWidget(BuildContext context, FieldSchema field) {
     return FlashTypeField<TValue, TView, TOption>(
       key: ObjectKey(field),
       field: field as TypeSchema<TValue, TView, TOption>,

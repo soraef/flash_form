@@ -8,7 +8,7 @@ enum SelectFieldMode {
 
 class SelectFieldFormat<T extends Object> extends ValueFieldFormat<T, String> {
   final List<T>? options;
-  final String? Function(T? value) toDisplay;
+  final String? Function(BuildContext context, T? value) toDisplay;
   final SelectFieldMode mode;
   final DropdownParameters? dropdownParams;
   final AutocompleteParameters<T>? autocompleteParams;
@@ -25,7 +25,7 @@ class SelectFieldFormat<T extends Object> extends ValueFieldFormat<T, String> {
 
   factory SelectFieldFormat.dropdown({
     required List<T> options,
-    required String? Function(T? value) toDisplay,
+    required String? Function(BuildContext context, T? value) toDisplay,
     DropdownParameters? dropdownParams,
   }) =>
       SelectFieldFormat(
@@ -36,7 +36,7 @@ class SelectFieldFormat<T extends Object> extends ValueFieldFormat<T, String> {
       );
 
   factory SelectFieldFormat.autocomplete({
-    required String? Function(T? value) toDisplay,
+    required String? Function(BuildContext context, T? value) toDisplay,
     AutocompleteParameters<T>? autocompleteParams,
     required Iterable<T> Function(String text) optionsBuilder,
   }) =>
@@ -48,7 +48,7 @@ class SelectFieldFormat<T extends Object> extends ValueFieldFormat<T, String> {
       );
 
   @override
-  Widget createFieldWidget(FieldSchema field) {
+  Widget createFieldWidget(BuildContext context, FieldSchema field) {
     if (mode == SelectFieldMode.autocomplete) {
       return FlashAutoCompleteField<T>(
         key: ObjectKey(field),
@@ -66,9 +66,9 @@ class SelectFieldFormat<T extends Object> extends ValueFieldFormat<T, String> {
   }
 
   @override
-  T? fromView(String? value) {
+  T? fromView(BuildContext context, String? value) {
     for (var option in options!) {
-      if (toDisplay(option) == value) {
+      if (toDisplay(context, option) == value) {
         return option;
       }
     }
@@ -76,5 +76,5 @@ class SelectFieldFormat<T extends Object> extends ValueFieldFormat<T, String> {
   }
 
   @override
-  String? toView(T? value) => toDisplay(value);
+  String? toView(BuildContext context, T? value) => toDisplay(context, value);
 }

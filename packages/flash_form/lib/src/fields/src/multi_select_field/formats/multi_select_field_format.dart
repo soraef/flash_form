@@ -22,21 +22,21 @@ class MultiSelectFieldFormat<T>
       );
 
   @override
-  Widget createFieldWidget(FieldSchema field) {
+  Widget createFieldWidget(BuildContext context, FieldSchema field) {
     return FlashCheckboxGroupField(
         key: ObjectKey(field),
         field: field as ValueSchema<List<T>, List<String>>);
   }
 
   @override
-  List<T>? fromView(List<String>? value) {
+  List<T>? fromView(BuildContext context, List<String>? value) {
     return value?.map((e) {
       return options.firstWhere((element) => toDisplay(element) == e);
     }).toList();
   }
 
   @override
-  List<String>? toView(List<T>? value) {
+  List<String>? toView(BuildContext context, List<T>? value) {
     return value?.map((e) => toDisplay(e)).toList();
   }
 

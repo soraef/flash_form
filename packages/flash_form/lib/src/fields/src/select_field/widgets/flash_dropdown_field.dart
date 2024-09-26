@@ -100,7 +100,7 @@ class FlashDropdownField<T extends Object> extends StatelessWidget {
             alignment: params.itemParams?.alignment ??
                 AlignmentDirectional.centerStart,
             child: Text(
-              format.toView(option) ?? '',
+              format.toView(context, option) ?? '',
               style: params.itemParams?.style,
             ),
           )

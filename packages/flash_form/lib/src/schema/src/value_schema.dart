@@ -1,4 +1,5 @@
 import 'package:flash_form/flash_form.dart';
+import 'package:flutter/material.dart';
 
 class ValueSchema<TValue, TView> extends FieldSchema<TValue, TView> {
   @override
@@ -21,9 +22,10 @@ class ValueSchema<TValue, TView> extends FieldSchema<TValue, TView> {
     notifyListeners();
   }
 
-  TView? get viewValue => (fieldFormat as ValueFieldFormat).toView(value);
-  TValue? convertViewToValue(TView? viewValue) {
-    return (fieldFormat as ValueFieldFormat).fromView(viewValue);
+  TView? viewValue(BuildContext context) =>
+      (fieldFormat as ValueFieldFormat).toView(context, value);
+  TValue? convertViewToValue(BuildContext context, TView? viewValue) {
+    return (fieldFormat as ValueFieldFormat).fromView(context, viewValue);
   }
 
   @override

@@ -64,7 +64,7 @@ abstract class FieldSchema<TValue, TView>
     return FieldBuilder(
       field: this,
       builder: (context) {
-        var field = fieldFormat.createFieldWidget(this);
+        var field = fieldFormat.createFieldWidget(context, this);
         for (var decorator
             in decorators?.reversed ?? <FieldDecorator<dynamic, dynamic>>[]) {
           field = decorator.build(field, this);

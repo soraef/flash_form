@@ -28,9 +28,11 @@ class _FlashTextFieldState extends State<FlashTextField> {
     final paramController = widget.textFieldParams?.controller;
     if (paramController != null) {
       _controller = paramController;
-      _controller.text = widget.field.viewValue ?? '';
+      _controller.text = widget.field.viewValue(context) ?? '';
     } else {
-      _controller = TextEditingController(text: widget.field.viewValue);
+      _controller = TextEditingController(
+        text: widget.field.viewValue(context),
+      );
     }
 
     _controller.addListener(_onTextChanged);
@@ -38,10 +40,10 @@ class _FlashTextFieldState extends State<FlashTextField> {
   }
 
   void _onTextChanged() {
-    final currentText = widget.field.viewValue ?? '';
+    final currentText = widget.field.viewValue(context);
 
     if (currentText != _controller.text) {
-      final value = widget.field.convertViewToValue(_controller.text);
+      final value = widget.field.convertViewToValue(context, _controller.text);
       if (value != null) {
         widget.field.updateValue(value);
       }
@@ -49,7 +51,7 @@ class _FlashTextFieldState extends State<FlashTextField> {
   }
 
   void _onFieldChanged() {
-    final currentText = widget.field.viewValue;
+    final currentText = widget.field.viewValue(context);
     if (currentText == _controller.text) {
       return;
     }
@@ -58,7 +60,7 @@ class _FlashTextFieldState extends State<FlashTextField> {
     int cursorPosition = _controller.selection.start;
 
     // テキストフィールドの値を更新
-    _controller.text = widget.field.viewValue ?? '';
+    _controller.text = widget.field.viewValue(context) ?? '';
 
     // カーソル位置を復元
     if (cursorPosition >= 0 && cursorPosition <= _controller.text.length) {

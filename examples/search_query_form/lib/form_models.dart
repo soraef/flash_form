@@ -54,6 +54,8 @@ class ConditionTypeField
                 return LessThanForm(parent: parent);
               case ConditionType.contains:
                 return ContainsForm(parent: parent);
+              case null:
+                return null;
               default:
                 throw Exception('Invalid type');
             }
@@ -162,7 +164,7 @@ class EqualsForm extends ModelSchema<Equals> {
   late final keyField = ValueSchema<PersonEqualsField, String>(
     fieldFormat: SelectFieldFormat(
       options: PersonEqualsField.values,
-      toDisplay: (value) => value?.name,
+      toDisplay: (context, value) => value?.name,
     ),
     validators: [RequiredValidator()],
     decorators: [const DefaultValueDecorator(label: 'field')],
@@ -199,7 +201,7 @@ class GreaterThanForm extends ModelSchema<GreaterThan> {
   late final keyField = ValueSchema<PersonGreaterThanField, String>(
     fieldFormat: SelectFieldFormat(
       options: PersonGreaterThanField.values,
-      toDisplay: (value) => value?.name,
+      toDisplay: (context, value) => value?.name,
     ),
     parent: this,
     value: null,
@@ -234,7 +236,7 @@ class LessThanForm extends ModelSchema<LessThan> {
   late final keyField = ValueSchema<PersonLessThanField, String>(
     fieldFormat: SelectFieldFormat(
       options: PersonLessThanField.values,
-      toDisplay: (value) => value?.name,
+      toDisplay: (context, value) => value?.name,
     ),
     parent: this,
     value: null,
@@ -269,7 +271,7 @@ class ContainsForm extends ModelSchema<Contains> {
   late final keyField = ValueSchema<PersonContainsField, String>(
     fieldFormat: SelectFieldFormat(
       options: PersonContainsField.values,
-      toDisplay: (value) => value?.name,
+      toDisplay: (context, value) => value?.name,
     ),
     parent: this,
     value: null,

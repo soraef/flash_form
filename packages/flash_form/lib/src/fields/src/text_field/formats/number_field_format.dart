@@ -2,19 +2,22 @@ import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
 
 class NumberFieldFormat extends ValueFieldFormat<num, String> {
-  final TextFieldParameters? textFieldParams;
+  final TextFieldParameters Function(BuildContext context)?
+      textFieldParamsFactory;
   NumberFieldFormat({
-    this.textFieldParams,
+    this.textFieldParamsFactory,
   });
 
   @override
-  num? fromView(String? value) => num.tryParse(value ?? '');
+  num? fromView(BuildContext context, String? value) =>
+      num.tryParse(value ?? '');
 
   @override
-  String? toView(num? value) => value?.toString();
+  String? toView(BuildContext context, num? value) => value?.toString();
 
   @override
-  Widget createFieldWidget(FieldSchema field) {
+  Widget createFieldWidget(BuildContext context, FieldSchema field) {
+    final textFieldParams = textFieldParamsFactory?.call(context);
     return FlashTextField(
       key: ObjectKey(field),
       field: field as ValueSchema,
