@@ -2,6 +2,10 @@ import 'package:flash_form/flash_form.dart';
 import 'package:flash_form/src/fields/src/list_field/formats/list_field_format.dart';
 
 class ListSchema<TValue, TView> extends FieldSchema<List<TValue>, List<TView>> {
+  /// Initial List of children fields
+  ///
+  /// **Note**
+  /// - Since the type information of the generics type disappears, required is specified.
   List<FieldSchema<TValue, TView>> children;
   String? Function(List<TValue> value)? validator;
   FieldSchema<TValue, TView> Function(
@@ -12,9 +16,9 @@ class ListSchema<TValue, TView> extends FieldSchema<List<TValue>, List<TView>> {
 
   ListSchema({
     required super.parent,
+    required this.children,
     super.decorators = const [DefaultListDecorator()],
     super.fieldFormat = const ListFieldFormat(),
-    this.children = const [],
     this.childFactory,
     this.validator,
   }) : super();
