@@ -1,13 +1,16 @@
 import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
 
-class ModelFieldFormat extends FieldFormat {
+class ModelFieldFormat<TValue, TView> extends FieldFormat<TValue, TView> {
   const ModelFieldFormat();
 
   @override
-  Widget createFieldWidget(BuildContext context, FieldSchema field) {
+  Widget createFieldWidget(
+    BuildContext context,
+    FieldSchema<TValue, TView> field,
+  ) {
     return FlashModelField(
-      form: field as ModelSchema,
+      form: field as ModelSchema<TValue>,
     );
   }
 }

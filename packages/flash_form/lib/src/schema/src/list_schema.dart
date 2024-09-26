@@ -5,7 +5,9 @@ class ListSchema<TValue, TView> extends FieldSchema<List<TValue>, List<TView>> {
   List<FieldSchema<TValue, TView>> children;
   String? Function(List<TValue> value)? validator;
   FieldSchema<TValue, TView> Function(
-      TValue? value, ListSchema<TValue, TView> parent)? childFactory;
+    TValue? value,
+    ListSchema<TValue, TView> parent,
+  )? childFactory;
   void Function(FormEvent event, ListSchema<TValue, TView>)? handleEvent;
 
   ListSchema({
