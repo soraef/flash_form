@@ -39,3 +39,4 @@
 ## 0.0.11
 * feat: Update displayOption method in TypeSchema to accept a BuildContext parameter
 * feat: Update createFieldWidget method in FieldFormat to accept a BuildContext parameter
+* update: Add generic typing to FieldFormat
