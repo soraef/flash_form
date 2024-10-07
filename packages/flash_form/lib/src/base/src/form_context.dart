@@ -129,8 +129,7 @@ class FormContext {
       return 0;
     }
 
-    // ignore: unrelated_type_equality_checks
-    if (_schemaMap[parentId] == type) {
+    if (_schemaMap[parentId]?.fieldType == type) {
       return countTypeOf(parentId, type) + 1;
     }
 
