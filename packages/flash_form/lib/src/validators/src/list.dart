@@ -3,6 +3,7 @@ import 'package:flash_form/flash_form.dart';
 class ListContainsValidatorResult extends ValidatorResult {
   ListContainsValidatorResult({
     String? message,
+    super.messageBuilder,
   }) : super(
           type: 'listContains',
           message: message ?? 'The list does not contain the required element',
@@ -14,13 +15,23 @@ class ListContainsValidator<TValue, TView>
     extends FieldValidator<List<TValue>, TView> {
   final TValue requiredElement;
   final String? message;
+  final MessageBuilder? messageBuilder;
 
-  ListContainsValidator({required this.requiredElement, this.message});
+  ListContainsValidator({
+    required this.requiredElement,
+    this.message,
+    this.messageBuilder,
+  });
 
   @override
   List<ValidatorResult> validate(FieldSchema<List<TValue>, TView> field) {
     if (field.value == null || !field.value!.contains(requiredElement)) {
-      return [ListContainsValidatorResult(message: message)];
+      return [
+        ListContainsValidatorResult(
+          message: message,
+          messageBuilder: messageBuilder,
+        )
+      ];
     }
     return [];
   }
@@ -29,6 +40,7 @@ class ListContainsValidator<TValue, TView>
 class ListUniqueValidatorResult extends ValidatorResult {
   ListUniqueValidatorResult({
     String? message,
+    super.messageBuilder,
   }) : super(
           type: 'listUnique',
           message: message ?? 'The list contains duplicate elements',
@@ -39,8 +51,9 @@ class ListUniqueValidatorResult extends ValidatorResult {
 class ListUniqueValidator<TValue, TView>
     extends FieldValidator<List<TValue>, TView> {
   final String? message;
+  final MessageBuilder? messageBuilder;
 
-  ListUniqueValidator({this.message});
+  ListUniqueValidator({this.message, this.messageBuilder});
 
   @override
   List<ValidatorResult> validate(FieldSchema<List<TValue>, TView> field) {

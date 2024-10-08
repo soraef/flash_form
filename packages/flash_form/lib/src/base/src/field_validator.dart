@@ -1,21 +1,33 @@
 import 'dart:async';
 
 import 'package:flash_form/flash_form.dart';
+import 'package:flutter/material.dart';
 
 abstract class FieldValidator<TValue, TView> {
   FutureOr<List<ValidatorResult>> validate(FieldSchema<TValue, TView> field);
 }
 
+typedef MessageBuilder = String Function(BuildContext context, String message);
+
 abstract class ValidatorResult {
   final String type;
   final String? message;
+  final MessageBuilder? messageBuilder;
   final dynamic value;
 
   ValidatorResult({
     required this.type,
+    this.messageBuilder,
     this.message,
     this.value,
   });
+
+  String? getMessage(BuildContext context) {
+    if (messageBuilder != null && message != null) {
+      return messageBuilder!(context, message!);
+    }
+    return message;
+  }
 
   @override
   String toString() {
