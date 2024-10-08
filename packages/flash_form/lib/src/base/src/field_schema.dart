@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 enum SchemaType {
   value,
@@ -19,7 +18,7 @@ abstract class FieldSchema<TValue, TView>
   final FieldFormat fieldFormat;
   final FieldSchema? parent;
   late final FormContext context;
-  List<FieldDecorator>? decorators;
+  List<FieldDecorator> Function(BuildContext context)? decorators;
   List<FieldValidator> validators;
   List<ValidatorResult> validatorResults = [];
   final FocusNode focusNode = FocusNode();
@@ -65,6 +64,7 @@ abstract class FieldSchema<TValue, TView>
       field: this,
       builder: (context) {
         var field = fieldFormat.createFieldWidget(context, this);
+        final decorators = this.decorators?.call(context);
         for (var decorator
             in decorators?.reversed ?? <FieldDecorator<dynamic, dynamic>>[]) {
           field = decorator.build(field, this);

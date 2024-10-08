@@ -167,14 +167,14 @@ class EqualsForm extends ModelSchema<Equals> {
       toDisplay: (context, value) => value?.name,
     ),
     validators: [RequiredValidator()],
-    decorators: [const DefaultValueDecorator(label: 'field')],
+    decorators: (_) => [const DefaultValueDecorator(label: 'field')],
     parent: this,
   );
 
   late final valueField = ValueSchema(
     fieldFormat: TextFieldFormat(),
     validators: [RequiredValidator()],
-    decorators: [const DefaultValueDecorator(label: 'value')],
+    decorators: (_) => [const DefaultValueDecorator(label: 'value')],
     parent: this,
   );
 

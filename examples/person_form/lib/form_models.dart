@@ -7,7 +7,7 @@ class PersonSchema extends ModelSchema<Person> {
 
   late final nameField = ValueSchema(
     fieldFormat: TextFieldFormat(),
-    decorators: [
+    decorators: (_) => [
       const DefaultValueDecorator(label: 'Name'),
     ],
     validators: [
@@ -19,7 +19,7 @@ class PersonSchema extends ModelSchema<Person> {
 
   late final ageField = ValueSchema(
     fieldFormat: NumberFieldFormat(),
-    decorators: [
+    decorators: (_) => [
       const DefaultValueDecorator(label: 'Age'),
     ],
     validators: [
@@ -36,7 +36,7 @@ class PersonSchema extends ModelSchema<Person> {
       options: ['Dart', 'Flutter', 'Java', 'Kotlin'],
       toDisplay: (value) => value,
     ),
-    decorators: [
+    decorators: (_) => [
       const DefaultValueDecorator(label: 'Skills'),
     ],
     parent: this,
@@ -44,7 +44,7 @@ class PersonSchema extends ModelSchema<Person> {
 
   late final hobbyField = ListSchema<String, String>(
     children: [],
-    decorators: [
+    decorators: (_) => [
       const DefaultListDecorator(label: 'Hobbies'),
     ],
     childFactory: (value, parent) {
@@ -58,8 +58,10 @@ class PersonSchema extends ModelSchema<Person> {
   );
 
   late final childrenField = ListSchema<Child, Child>(
-    children: [],
-    decorators: [
+    children: [
+      ChildForm(),
+    ],
+    decorators: (_) => [
       const DefaultListDecorator(label: 'Children'),
     ],
     childFactory: (value, parent) {
@@ -76,7 +78,7 @@ class PersonSchema extends ModelSchema<Person> {
       Student,
       Employee,
     ],
-    decorators: [
+    decorators: (_) => [
       const DefaultTypeDecorator(label: 'Role'),
     ],
     factory: (Type? value, TypeSchema<dynamic, dynamic, dynamic> parent) {
@@ -141,7 +143,7 @@ class PersonSchema extends ModelSchema<Person> {
 class ChildForm extends ModelSchema<Child> {
   ChildForm({super.parent})
       : super(
-          decorators: [
+          decorators: (_) => [
             CardDecorator(),
           ],
           fieldFormat: const ModelFieldFormat(),
@@ -149,7 +151,7 @@ class ChildForm extends ModelSchema<Child> {
 
   late final nameField = ValueSchema<String, String>(
     fieldFormat: TextFieldFormat(),
-    decorators: [
+    decorators: (_) => [
       const DefaultValueDecorator(label: 'Name'),
     ],
     value: '',
@@ -158,7 +160,7 @@ class ChildForm extends ModelSchema<Child> {
 
   late final ageField = ValueSchema<num, String>(
     fieldFormat: NumberFieldFormat(),
-    decorators: [
+    decorators: (_) => [
       const DefaultValueDecorator(label: 'Age'),
     ],
     value: 12,
@@ -192,7 +194,7 @@ class StudentForm extends ModelSchema<Student> {
 
   late final schoolField = ValueSchema<String, String>(
     fieldFormat: TextFieldFormat(),
-    decorators: [
+    decorators: (_) => [
       const DefaultValueDecorator(label: 'School'),
     ],
     value: null,
@@ -225,7 +227,7 @@ class EmployeeForm extends ModelSchema<Employee> {
   late final companyField = ValueSchema<String, String>(
     parent: this,
     fieldFormat: TextFieldFormat(),
-    decorators: [
+    decorators: (_) => [
       const DefaultValueDecorator(label: 'Company'),
     ],
     value: null,

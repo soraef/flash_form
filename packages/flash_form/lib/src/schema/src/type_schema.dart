@@ -14,6 +14,10 @@ typedef TypeSchemaEventHandler<TValue, TView, TOption> = void Function(
   TypeSchema<TValue, TView, TOption> parent,
 );
 
+List<FieldDecorator> defaultTypeDecorator(BuildContext context) {
+  return [const DefaultTypeDecorator()];
+}
+
 class TypeSchema<TValue, TView, TOption> extends FieldSchema<TValue, TView> {
   final SchemaFactory<TValue, TView, TOption> factory;
   final TypeFactory<TValue, TOption> typeFactory;
@@ -24,7 +28,7 @@ class TypeSchema<TValue, TView, TOption> extends FieldSchema<TValue, TView> {
   TypeSchemaEventHandler<TValue, TView, TOption>? handleEvent;
 
   TypeSchema({
-    super.decorators = const [DefaultTypeDecorator()],
+    super.decorators = defaultTypeDecorator,
     super.fieldFormat = const TypeFieldFormat(),
     required this.typeOptions,
     required this.typeFactory,

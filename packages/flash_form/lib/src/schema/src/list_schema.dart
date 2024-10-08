@@ -1,5 +1,12 @@
 import 'package:flash_form/flash_form.dart';
 import 'package:flash_form/src/fields/src/list_field/formats/list_field_format.dart';
+import 'package:flutter/material.dart';
+
+List<FieldDecorator> defaultListDecorator(
+  BuildContext context,
+) {
+  return [const DefaultListDecorator()];
+}
 
 class ListSchema<TValue, TView> extends FieldSchema<List<TValue>, List<TView>> {
   /// Initial List of children fields
@@ -17,11 +24,11 @@ class ListSchema<TValue, TView> extends FieldSchema<List<TValue>, List<TView>> {
   ListSchema({
     required super.parent,
     required this.children,
-    super.decorators = const [DefaultListDecorator()],
+    super.decorators = defaultListDecorator,
     super.fieldFormat = const ListFieldFormat(),
     this.childFactory,
     this.validator,
-  }) : super();
+  });
 
   @override
   void updateValue(List<TValue>? newValue) {

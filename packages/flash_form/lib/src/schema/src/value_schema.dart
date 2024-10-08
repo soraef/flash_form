@@ -1,6 +1,10 @@
 import 'package:flash_form/flash_form.dart';
 import 'package:flutter/material.dart';
 
+List<FieldDecorator> defaultValueDecorator(BuildContext context) {
+  return [const DefaultValueDecorator()];
+}
+
 class ValueSchema<TValue, TView> extends FieldSchema<TValue, TView> {
   @override
   TValue? value;
@@ -10,7 +14,7 @@ class ValueSchema<TValue, TView> extends FieldSchema<TValue, TView> {
     required ValueFieldFormat<TValue, TView> super.fieldFormat,
     required super.parent,
     this.value,
-    super.decorators = const [DefaultValueDecorator()],
+    super.decorators = defaultValueDecorator,
     super.validators,
     this.handleEvent,
   });

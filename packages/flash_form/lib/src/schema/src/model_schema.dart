@@ -1,8 +1,13 @@
 import 'package:flash_form/flash_form.dart';
+import 'package:flutter/material.dart';
+
+List<FieldDecorator> defaultModelDecorators(BuildContext context) {
+  return [const DefaultObjectDecorator()];
+}
 
 abstract class ModelSchema<T> extends FieldSchema<T, T> {
   ModelSchema({
-    super.decorators = const [DefaultObjectDecorator()],
+    super.decorators = defaultModelDecorators,
     required super.parent,
     super.fieldFormat = const ModelFieldFormat(),
   }) : super();
